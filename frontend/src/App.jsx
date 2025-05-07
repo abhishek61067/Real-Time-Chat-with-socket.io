@@ -1,9 +1,12 @@
-import { useState } from "react";
-
+import { Button, HStack } from "@chakra-ui/react";
 import "./App.css";
 
 function App() {
-  return <>chat app</>;
+  return (
+    <HStack>
+      <Button color={"red.200"}>Click me</Button>
+    </HStack>
+  );
 }
 
 export default App;
