@@ -1,12 +1,14 @@
 import React from "react";
 import { useChats } from "../api/chat";
+import Loader from "./../components/ui/loader";
+import Error from "./../components/ui/error";
 
 const ChatPage = () => {
   const { data: chats, isLoading, error } = useChats();
 
-  if (isLoading) return <div>Loading chats...</div>;
+  if (isLoading) return <Loader />;
 
-  if (error) return <div>Error loading chats: {error.message}</div>;
+  if (error) return <Error message={error.message} />;
 
   if (!chats || chats.length === 0) return <div>No chats available</div>;
 
