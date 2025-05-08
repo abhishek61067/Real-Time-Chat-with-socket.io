@@ -1,7 +1,7 @@
 import React from "react";
 import { useChats } from "../api/chat";
-import Loader from "./../components/ui/loader";
-import Error from "./../components/ui/error";
+import Loader from "../components/loader";
+import Error from "../components/error";
 
 const ChatPage = () => {
   const { data: chats, isLoading, error } = useChats();
