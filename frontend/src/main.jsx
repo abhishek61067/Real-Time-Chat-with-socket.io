@@ -12,21 +12,10 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import ChatPage from "./pages/ChatPage.jsx";
+import router from "./routes/routes.js";
 
 // api
 const queryClient = new QueryClient();
-
-// routes
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-  },
-  {
-    path: "/chats",
-    element: <ChatPage />,
-  },
-]);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
