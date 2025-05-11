@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import ChatPage from "../pages/ChatPage";
+import routes from "./constant";
 
-// routes
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
@@ -13,5 +13,3 @@ const router = createBrowserRouter([
     element: <ChatPage />,
   },
 ]);
-
-export default router;

@@ -1,10 +1,11 @@
-import { Button, HStack } from "@chakra-ui/react";
+import { HStack } from "@chakra-ui/react";
 import "./App.css";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
     <HStack>
-      <Button color={"red.200"}>Click me</Button>
+      <LoginPage />
     </HStack>
   );
 }
