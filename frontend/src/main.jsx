@@ -1,4 +1,4 @@
-import { Provider } from "@/components/ui/provider";
+import { ChakraProvider } from "@chakra-ui/react";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
@@ -14,9 +14,9 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <Provider>
+      <ChakraProvider>
         <RouterProvider router={router} />
-      </Provider>
+      </ChakraProvider>
     </QueryClientProvider>
   </StrictMode>
 );

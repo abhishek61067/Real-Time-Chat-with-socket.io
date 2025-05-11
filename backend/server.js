@@ -1,6 +1,15 @@
 import express from "express";
 import cors from "cors"; // Import the CORS middleware
 import { chats } from "./data/data.js";
+import connectDB from "./config/db.js";
+import dotenv from "dotenv";
+
+dotenv.config(); // Load environment variables from .env file
+
+console.log("Environment Variables Loaded:");
+console.log("MONGODB_URI:", process.env.MONGODB_URI);
+
+connectDB();
 
 const app = express();
 
