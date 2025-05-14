@@ -4,12 +4,24 @@ import cors from "cors"; // Import the CORS middleware
 import { chats } from "./data/data.js";
 import connectDB from "./config/db.js";
 import dotenv from "dotenv";
+import userRoutes from "./routes/userRoutes.js";
+import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 
 dotenv.config(); // Load environment variables from .env file
 
 connectDB();
 
 const app = express();
+
+// to accept JSON data
+app.use(express.json());
+
+// to handle errors
+app.use(notFound);
+app.use(errorHandler);
+
+//to use the routes
+app.use("/api/user", userRoutes);
 
 // Enable CORS
 app.use(cors());

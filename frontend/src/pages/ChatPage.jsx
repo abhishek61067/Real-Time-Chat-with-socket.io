@@ -4,6 +4,7 @@ import Loader from "../components/loader";
 import Error from "../components/error";
 
 const ChatPage = () => {
+  // const isUserLoggedIn = isUserLoggedIns();
   const { data: chats, isLoading, error } = useChats();
 
   if (isLoading) return <Loader />;
