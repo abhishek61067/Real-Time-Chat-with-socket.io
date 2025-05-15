@@ -3,8 +3,10 @@ import User from "./../models/userModel.js";
 import generateToken from "./../utils/generateToken.js";
 
 const registerUser = expressAsyncHandler(async (req, res) => {
-  const { name, email, password, pic } = req.body;
+  const { name, email, password } = req.body;
+  const pic = req.file; // Access the uploaded file
 
+  // if field are empty
   if (!name || !email || !password) {
     res.status(400);
     throw new Error("Please fill all the fields");
@@ -16,12 +18,15 @@ const registerUser = expressAsyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("User already exists");
   }
+
+  // Save the user
   const user = await User.create({
     name,
     email,
     password,
-    pic,
+    pic: pic ? pic.buffer.toString("base64") : undefined, // Save the picture as a base64 string or handle it as needed
   });
+
   if (user) {
     res.status(201).json({
       _id: user._id,

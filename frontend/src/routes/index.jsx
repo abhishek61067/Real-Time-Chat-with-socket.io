@@ -5,11 +5,11 @@ import routes from "./constant";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: routes.HOME,
     element: <App />,
   },
   {
-    path: "/chats",
+    path: routes.CHATS,
     element: <ChatPage />,
   },
 ]);
