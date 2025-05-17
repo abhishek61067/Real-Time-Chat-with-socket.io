@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 import multer from "multer";
+import { chatRoutes } from "./routes/chatRoutes.js";
 
 dotenv.config(); // Load environment variables from .env file
 
@@ -33,6 +34,7 @@ app.use(cors(corsOptions));
 
 //to use the routes
 app.use("/api/user", userRoutes);
+app.use("/api/chat", chatRoutes);
 
 //chat route
 // APIs

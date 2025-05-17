@@ -2,7 +2,7 @@ import expressAsyncHandler from "express-async-handler";
 import User from "./../models/userModel.js";
 import generateToken from "./../utils/generateToken.js";
 
-const registerUser = expressAsyncHandler(async (req, res) => {
+export const registerUser = expressAsyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
   const pic = req.file; // Access the uploaded file
 
@@ -65,4 +65,15 @@ export const authUser = expressAsyncHandler(async (req, res) => {
   }
 });
 
-export default registerUser;
+export const allUsers = expressAsyncHandler(async (req, res) => {
+  const keyword = req.query.search
+    ? {
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
+  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+  res.send(users);
+});

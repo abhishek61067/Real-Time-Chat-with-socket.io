@@ -82,7 +82,7 @@ const SignUp = () => {
           status: "success",
         });
         // Redirect to login page
-        navigate(routes.CHATS);
+        navigate(routes.CHAT);
       })
 
       .catch((error) => {

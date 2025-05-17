@@ -9,7 +9,7 @@ export const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: routes.CHATS,
+    path: routes.CHAT,
     element: <ChatPage />,
   },
 ]);

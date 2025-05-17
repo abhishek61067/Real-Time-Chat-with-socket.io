@@ -50,7 +50,7 @@ const LoginPage = () => {
           duration: 3000,
           isClosable: true,
         });
-        navigate(routes.CHATS);
+        navigate(routes.CHAT);
         // Handle successful login (e.g., redirect, show message)
       })
       .catch((error) => {
