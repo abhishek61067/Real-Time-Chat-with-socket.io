@@ -27,7 +27,17 @@ const ChatPage = () => {
           <li key={chat._id}>{chat.chatName}</li>
         ))}
       </ul> */}
-      <SideDrawer />
+      <Box
+        shadow={"lg"}
+        p={4}
+        bg={"white"}
+        top={0}
+        left={0}
+        right={0}
+        zIndex={1000}
+      >
+        <SideDrawer />
+      </Box>
       <HStack spacing={4} justifyContent="space-between" m={4}>
         <MyChat />
         <ChatBox />

@@ -9,8 +9,12 @@ import {
   useDisclosure,
   Button,
   Input,
+  InputGroup,
+  InputLeftElement,
+  Box,
 } from "@chakra-ui/react";
 import { useRef } from "react";
+import { LuSearch } from "react-icons/lu";
 
 const SideDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -18,8 +22,14 @@ const SideDrawer = () => {
 
   return (
     <>
-      <Button ref={btnRef} colorScheme="teal" onClick={onOpen}>
-        Open
+      <Button
+        leftIcon={<LuSearch color="gray.300" />}
+        ref={btnRef}
+        colorScheme="transparent"
+        variant="outline"
+        onClick={onOpen}
+      >
+        Search User
       </Button>
       <Drawer
         isOpen={isOpen}
