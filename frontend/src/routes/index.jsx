@@ -3,6 +3,7 @@ import MainLayout from "../layout/MainLayout.jsx";
 import App from "../App";
 import ChatPage from "../pages/ChatPage";
 import routes from "./constant";
+import ProtectedRoute from "../components/auth/ProtectedRoute.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -15,7 +16,11 @@ export const router = createBrowserRouter([
       },
       {
         path: routes.CHAT,
-        element: <ChatPage />,
+        element: (
+          <ProtectedRoute>
+            <ChatPage />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
