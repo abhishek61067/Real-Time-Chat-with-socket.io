@@ -1,3 +1,17 @@
+import { IoIosNotifications } from "react-icons/io";
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
+  Button,
+  Avatar,
+  Text,
+} from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useChats } from "../api/chat";
 import Loader from "../components/loader";
@@ -8,8 +22,11 @@ import { Box, HStack } from "@chakra-ui/react";
 import SideDrawer from "../components/chat/SideDrawer";
 import MyChat from "../components/chat/MyChat";
 import ChatBox from "../components/chat/ChatBox";
+import { LuChevronDown } from "react-icons/lu";
+import ProfileModal from "../components/user/ProfileModal";
 
 const ChatPage = () => {
+  const user = useUserStore((state) => state.user);
   // const isUserLoggedIn = isUserLoggedIns();
   const { data: chats, isLoading, error } = useChats();
 
@@ -27,7 +44,7 @@ const ChatPage = () => {
           <li key={chat._id}>{chat.chatName}</li>
         ))}
       </ul> */}
-      <Box
+      <HStack
         shadow={"lg"}
         p={4}
         bg={"white"}
@@ -35,9 +52,36 @@ const ChatPage = () => {
         left={0}
         right={0}
         zIndex={1000}
+        justify={"space-between"}
       >
         <SideDrawer />
-      </Box>
+        <Text fontSize="2xl" fontWeight="bold">
+          Chat Application
+        </Text>
+        {/* menu for notification */}
+        <HStack spacing={4}>
+          <Menu>
+            <MenuButton>
+              <IoIosNotifications size={24} />{" "}
+            </MenuButton>
+          </Menu>
+          <Menu>
+            <MenuButton rightIcon={<LuChevronDown />}>
+              <Avatar
+                size="md"
+                cursor="pointer"
+                name={user?.name ?? "Codeek"}
+              />
+            </MenuButton>
+            <MenuList>
+              <MenuItem>
+                <ProfileModal user={user} />
+              </MenuItem>
+              <MenuItem>Logout</MenuItem>
+            </MenuList>
+          </Menu>
+        </HStack>
+      </HStack>
       <HStack spacing={4} justifyContent="space-between" m={4}>
         <MyChat />
         <ChatBox />

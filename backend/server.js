@@ -36,6 +36,8 @@ app.use(cors(corsOptions));
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 
+// app.use("/api/chat", chatRoutes);
+
 //chat route
 // APIs
 app.get("/api/chats", (req, res) => {

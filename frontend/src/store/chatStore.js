@@ -1,5 +1,6 @@
 // creating a store for user from zustand
 import { create } from "zustand";
+import { removeToken, setToken } from "../utils/token";
 
 export const useUserStore = create((set) => ({
   user: null,
@@ -7,8 +8,10 @@ export const useUserStore = create((set) => ({
     set({ user });
     if (user) {
       localStorage.setItem("userInfo", JSON.stringify(user));
+      setToken(user.token);
     } else {
       localStorage.removeItem("userInfo");
+      removeToken();
     }
   },
   initUser: () => {
@@ -16,12 +19,15 @@ export const useUserStore = create((set) => ({
       const userData = localStorage.getItem("userInfo");
       if (userData) {
         set({ user: JSON.parse(userData) });
+        setToken(JSON.parse(userData).token);
         return true;
       }
       set({ user: null });
+      removeToken();
       return false;
     } catch {
       set({ user: null });
+      removeToken();
       return false;
     }
   },

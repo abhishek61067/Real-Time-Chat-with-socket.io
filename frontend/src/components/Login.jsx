@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import {
   Text,
   VStack,
@@ -18,6 +18,7 @@ import useLogin from "./../api/auth/login";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import routes from "./../routes/constant";
+import { useUserStore } from "../store/chatStore";
 
 // Define Yup validation schema
 const schema = Yup.object().shape({
@@ -26,6 +27,7 @@ const schema = Yup.object().shape({
 });
 
 const LoginPage = () => {
+  const { setUser } = useUserStore();
   const toast = useToast();
   const navigate = useNavigate();
   const { mutateAsync: login } = useLogin();
@@ -50,6 +52,7 @@ const LoginPage = () => {
           duration: 3000,
           isClosable: true,
         });
+        setUser(response);
         navigate(routes.CHAT);
         // Handle successful login (e.g., redirect, show message)
       })
