@@ -13,31 +13,62 @@ export const registerUser = expressAsyncHandler(async (req, res) => {
   }
 
   // Check if user already exists
-  const userExists = await User.findOne({ email });
-  if (userExists) {
-    res.status(400);
-    throw new Error("User already exists");
+
+  try {
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      res.status(400);
+      throw new Error("User already exists");
+    }
+  } catch (error) {
+    console.error("Error checking user existence:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 
   // Save the user
-  const user = await User.create({
-    name,
-    email,
-    password,
-    pic: pic ? pic.buffer.toString("base64") : undefined, // Save the picture as a base64 string or handle it as needed
-  });
-
-  if (user) {
-    res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      pic: user.pic,
-      token: generateToken(user._id),
+  try {
+    const user = await User.create({
+      name,
+      email,
+      password,
+      pic: pic ? pic.buffer.toString("base64") : undefined, // Save the picture as a base64 string or handle it as needed
+      role: email === "abhishek.bhattarai@gmail.com" ? "admin" : "user", // Assign admin role if email matches
     });
-  } else {
-    res.status(400);
-    throw new Error("Failed to create user");
+
+    if (user) {
+      res.status(201).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        pic: user.pic,
+        token: generateToken(user._id),
+        role: user.role,
+      });
+    } else {
+      res.status(500);
+      throw new Error("Failed to create user");
+    }
+  } catch (error) {
+    console.error("Error creating user:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+export const deleteUser = expressAsyncHandler(async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const deletedUser = await User.findByIdAndDelete(userId);
+
+    if (!deletedUser) {
+      res.status(404);
+      throw new Error("User not found");
+    }
+
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
@@ -57,6 +88,7 @@ export const authUser = expressAsyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       pic: user.pic,
+      role: user.role,
       token: generateToken(user._id),
     });
   } else {

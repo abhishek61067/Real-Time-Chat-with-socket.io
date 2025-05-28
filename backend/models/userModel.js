@@ -12,6 +12,11 @@ const userSchema = new Schema(
       default:
         "https://iconarchive.com/download/i107128/Flat-Design-Icons/Flat-User-Profile-2.ico",
     },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
   },
   {
     timestamps: true,
