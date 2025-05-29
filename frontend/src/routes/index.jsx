@@ -4,6 +4,7 @@ import App from "../App";
 import ChatPage from "../pages/ChatPage";
 import routes from "./constant";
 import ProtectedRoute from "../components/auth/ProtectedRoute.jsx";
+import RoleProtectedRoute from "../components/auth/RoleProtectedRoute.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -17,10 +18,16 @@ export const router = createBrowserRouter([
       {
         path: routes.CHAT,
         element: (
-          <ProtectedRoute>
+          <RoleProtectedRoute allowedRoles={["admin"]}>
+            {/* <ProtectedRoute> */}
             <ChatPage />
-          </ProtectedRoute>
+            {/* </ProtectedRoute> */}
+          </RoleProtectedRoute>
         ),
+      },
+      {
+        path: routes.UNAUTHORIZED,
+        element: <div>Unauthorized</div>,
       },
     ],
   },

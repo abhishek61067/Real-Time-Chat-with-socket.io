@@ -27,10 +27,8 @@ const schema = Yup.object().shape({
 });
 
 const LoginPage = () => {
-  // const {
-  //   state: { from },
-  // } = useLocation();
-  // console.log("🚀 ~ LoginPage from:", from);
+  const { state } = useLocation();
+  console.log("🚀 ~ LoginPage from:", state?.from ?? null);
   const { setUser } = useUserStore();
   const toast = useToast();
   const navigate = useNavigate();
@@ -57,7 +55,7 @@ const LoginPage = () => {
           isClosable: true,
         });
         setUser(response);
-        navigate(from || routes.HOME);
+        navigate(state.from || routes.HOME);
         // Handle successful login (e.g., redirect, show message)
       })
       .catch((error) => {
