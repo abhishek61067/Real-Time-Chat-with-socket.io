@@ -18,11 +18,11 @@ export const router = createBrowserRouter([
       {
         path: routes.CHAT,
         element: (
-          <RoleProtectedRoute allowedRoles={["admin"]}>
-            {/* <ProtectedRoute> */}
-            <ChatPage />
-            {/* </ProtectedRoute> */}
-          </RoleProtectedRoute>
+          <ProtectedRoute>
+            <RoleProtectedRoute allowedRoles={["admin"]}>
+              <ChatPage />
+            </RoleProtectedRoute>
+          </ProtectedRoute>
         ),
       },
       {

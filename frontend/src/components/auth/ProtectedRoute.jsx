@@ -1,25 +1,32 @@
-import { use, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUserStore } from "@/store/chatStore";
+import { useToast } from "@chakra-ui/react";
 
 const ProtectedRoute = ({ children }) => {
   const user = useUserStore((state) => state.user);
-  const initUser = useUserStore((state) => state.initUser);
-  const setUser = useUserStore((state) => state.setUser);
   const navigate = useNavigate();
-
-  // to catch the path before redirecting to the login page
+  const toast = useToast();
   const location = useLocation();
   const pathname = location.pathname;
-  console.log(pathname);
+  const hasShownToast = useRef(false);
 
   useEffect(() => {
-    const isUserInitialized = initUser();
-    if (!isUserInitialized) {
-      setUser(null);
-      navigate("/", { state: { from: pathname } });
+    if (!user && !hasShownToast.current) {
+      hasShownToast.current = true;
+      toast({
+        title: "Unauthorized",
+        description: "You must be logged in to access this page.",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setTimeout(() => {
+        navigate("/", { state: { from: pathname } });
+      }, 100);
     }
-  }, [initUser, setUser, navigate]);
+  }, [user, navigate, pathname, toast]);
 
   if (!user) return null;
 

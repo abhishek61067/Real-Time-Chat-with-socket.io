@@ -21,23 +21,25 @@ const Navbar = () => {
     >
       <Flex align="center" justify="space-between" maxW="7xl" mx="auto" px={8}>
         {/* Logo and App Name on the left */}
-        <HStack spacing={2}>
-          <Avatar
-            size="sm"
-            src="https://cdn-icons-png.flaticon.com/512/1384/1384031.png"
-            name="Chat Logo"
-            bg="pink.200"
-          />
-          <Text
-            fontWeight="bold"
-            fontSize="xl"
-            color="teal.700"
-            letterSpacing="wide"
-            userSelect="none"
-          >
-            ChatApp
-          </Text>
-        </HStack>
+        <Link as={RouterLink} to="/">
+          <HStack spacing={2}>
+            <Avatar
+              size="sm"
+              src="https://cdn-icons-png.flaticon.com/512/1384/1384031.png"
+              name="Chat Logo"
+              bg="pink.200"
+            />
+            <Text
+              fontWeight="bold"
+              fontSize="xl"
+              color="teal.700"
+              letterSpacing="wide"
+              userSelect="none"
+            >
+              ChatApp
+            </Text>
+          </HStack>
+        </Link>
         {/* Nav items on the right */}
         <HStack spacing={8}>
           <Link

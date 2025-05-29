@@ -6,6 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 function App() {
+  const initUser = useUserStore((state) => state.initUser);
+
+  useEffect(() => {
+    initUser();
+  }, [initUser]);
+
   return (
     <HStack>
       <LoginPage />
