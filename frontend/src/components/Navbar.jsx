@@ -72,6 +72,27 @@ const Navbar = () => {
           >
             About Us
           </Link>
+          <Link
+            as={RouterLink}
+            to="/admin-panel"
+            fontWeight="bold"
+            fontSize="lg"
+            color="teal.700"
+            _hover={{ color: "purple.500", textDecoration: "none" }}
+          >
+            Admin Panel
+          </Link>
+          {/* logout */}
+          <Link
+            as={RouterLink}
+            to="/logout"
+            fontWeight="bold"
+            fontSize="lg"
+            color="teal.700"
+            _hover={{ color: "purple.500", textDecoration: "none" }}
+          >
+            Logout
+          </Link>
         </HStack>
       </Flex>
     </Box>

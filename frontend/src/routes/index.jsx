@@ -5,6 +5,8 @@ import ChatPage from "../pages/ChatPage";
 import routes from "./constant";
 import ProtectedRoute from "../components/auth/ProtectedRoute.jsx";
 import RoleProtectedRoute from "../components/auth/RoleProtectedRoute.jsx";
+import UnAuthorized from "../pages/UnAuthorized.jsx";
+import Logout from "./../pages/Logout";
 
 export const router = createBrowserRouter([
   {
@@ -19,20 +21,30 @@ export const router = createBrowserRouter([
         path: routes.CHAT,
         element: (
           <ProtectedRoute>
-            <RoleProtectedRoute allowedRoles={["admin"]}>
-              <ChatPage />
-            </RoleProtectedRoute>
+            <ChatPage />
           </ProtectedRoute>
         ),
       },
       {
         path: routes.UNAUTHORIZED,
-        element: <div>Unauthorized</div>,
+        element: <UnAuthorized />,
+      },
+      {
+        path: routes.LOG_OUT,
+        element: <Logout />,
       },
     ],
   },
   {
     path: "about-us",
     element: <div>About us</div>,
+  },
+  {
+    path: "admin-panel",
+    element: (
+      <RoleProtectedRoute allowedRoles={["admin"]}>
+        <div>Admin</div>
+      </RoleProtectedRoute>
+    ),
   },
 ]);
