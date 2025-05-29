@@ -42,9 +42,11 @@ export const router = createBrowserRouter([
   {
     path: "admin-panel",
     element: (
-      <RoleProtectedRoute allowedRoles={["admin"]}>
-        <div>Admin</div>
-      </RoleProtectedRoute>
+      <ProtectedRoute>
+        <RoleProtectedRoute allowedRoles={["admin"]}>
+          <div>Admin</div>
+        </RoleProtectedRoute>
+      </ProtectedRoute>
     ),
   },
 ]);
