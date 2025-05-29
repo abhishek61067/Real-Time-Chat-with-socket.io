@@ -1,3 +1,4 @@
+import { IoNotificationsOutline } from "react-icons/io5";
 import {
   HStack,
   Text,
@@ -18,9 +19,9 @@ const ChatHeader = () => {
 
   return (
     <HStack
-      shadow="lg"
+      shadow="md"
       p={4}
-      bg="white"
+      bgGradient="linear(to-r, teal.50, purple.50, teal.50)"
       top={0}
       left={0}
       right={0}
@@ -28,18 +29,19 @@ const ChatHeader = () => {
       justify="space-between"
     >
       <SideDrawer />
-      <Text fontSize="2xl" fontWeight="bold">
+      <Text fontSize="3xl" fontWeight="bold">
         Chat Application
       </Text>
       <HStack spacing={4}>
         <Menu>
           <MenuButton>
-            <IoIosNotifications size={24} />
+            <IoNotificationsOutline size={24} />{" "}
           </MenuButton>
         </Menu>
         <Menu>
           <MenuButton rightIcon={<LuChevronDown />}>
             <Avatar
+              bg={"pink.100"}
               size="md"
               src={user?.pic}
               cursor="pointer"

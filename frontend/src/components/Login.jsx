@@ -27,10 +27,10 @@ const schema = Yup.object().shape({
 });
 
 const LoginPage = () => {
-  const {
-    state: { from },
-  } = useLocation();
-  console.log("🚀 ~ LoginPage from:", from);
+  // const {
+  //   state: { from },
+  // } = useLocation();
+  // console.log("🚀 ~ LoginPage from:", from);
   const { setUser } = useUserStore();
   const toast = useToast();
   const navigate = useNavigate();
