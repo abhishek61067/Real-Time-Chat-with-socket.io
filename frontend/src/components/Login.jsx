@@ -15,7 +15,7 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import useLogin from "./../api/auth/login";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import routes from "./../routes/constant";
 import { useUserStore } from "../store/chatStore";
@@ -27,6 +27,10 @@ const schema = Yup.object().shape({
 });
 
 const LoginPage = () => {
+  const {
+    state: { from },
+  } = useLocation();
+  console.log("🚀 ~ LoginPage from:", from);
   const { setUser } = useUserStore();
   const toast = useToast();
   const navigate = useNavigate();
@@ -53,7 +57,7 @@ const LoginPage = () => {
           isClosable: true,
         });
         setUser(response);
-        navigate(routes.CHAT);
+        navigate(from || routes.HOME);
         // Handle successful login (e.g., redirect, show message)
       })
       .catch((error) => {
