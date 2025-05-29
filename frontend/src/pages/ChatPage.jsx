@@ -17,7 +17,7 @@ const ChatPage = () => {
   if (!chats || chats.length === 0) return <div>No chats available</div>;
 
   return (
-    <Box>
+    <Box height={"100vh"}>
       <ChatHeader />
       <HStack spacing={4} justifyContent="space-between" m={4}>
         <MyChat />

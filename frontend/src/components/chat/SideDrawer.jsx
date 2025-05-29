@@ -28,6 +28,7 @@ const SideDrawer = () => {
         colorScheme="transparent"
         variant="outline"
         onClick={onOpen}
+        borderColor={"#CDC1FF"}
       >
         Search User
       </Button>
