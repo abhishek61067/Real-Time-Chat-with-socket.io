@@ -6,8 +6,9 @@ import { useUserStore } from "../store/chatStore";
 import { useNavigate } from "react-router-dom";
 import { useChats } from "../api/chat";
 import ChatHeader from "../components/chat/ChatHeader";
-import MyChat from "../components/chat/MyChat";
+import MyChat from "../components/chat/MyChatList";
 import ChatBox from "../components/chat/ChatBox";
+import MyChatList from "../components/chat/MyChatList";
 
 const ChatPage = () => {
   const user = useUserStore((state) => state.user);
@@ -24,7 +25,7 @@ const ChatPage = () => {
     <Box height={"100vh"}>
       <ChatHeader />
       <HStack spacing={4} justifyContent="space-between" m={4}>
-        <MyChat />
+        <MyChatList />
         <ChatBox />
       </HStack>
     </Box>

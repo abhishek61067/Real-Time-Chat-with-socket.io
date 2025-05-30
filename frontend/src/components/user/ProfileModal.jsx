@@ -9,7 +9,9 @@ import {
   useDisclosure,
   Button,
   Box,
+  Image,
 } from "@chakra-ui/react";
+import { useUserStore } from "@/store/chatStore";
 
 const ProfileModal = ({ user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -22,12 +24,20 @@ const ProfileModal = ({ user }) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>{user.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur
-            odio veritatis totam quia soluta, natus suscipit pariatur rerum
-            aperiam deserunt.
+            <Image
+              borderRadius="full"
+              boxSize="150px"
+              src={
+                user.pic?.startsWith("http")
+                  ? user.pic
+                  : `data:image;base64,${user.pic}`
+              }
+              alt={user.name}
+              mb={4}
+            />
           </ModalBody>
 
           <ModalFooter>
