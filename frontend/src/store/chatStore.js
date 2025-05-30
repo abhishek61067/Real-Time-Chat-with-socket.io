@@ -17,14 +17,18 @@ export const useUserStore = create((set) => ({
   initUser: () => {
     try {
       const userData = localStorage.getItem("userInfo");
+      console.log("🚀 ~ useUserStore ~ userData:", userData);
+
       if (userData) {
         set({ user: JSON.parse(userData) });
         setToken(JSON.parse(userData).token);
         return true;
+      } else {
+        console.log("User data not found in localStorage");
+        set({ user: null });
+        removeToken();
+        return false;
       }
-      set({ user: null });
-      removeToken();
-      return false;
     } catch {
       set({ user: null });
       removeToken();
