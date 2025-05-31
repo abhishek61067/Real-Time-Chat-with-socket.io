@@ -8,8 +8,10 @@ import {
   Flex,
   IconButton,
   useColorMode,
+  Image,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import ChatLogo from "@/assets/logo/chat.svg"; // Assuming you have a logo image
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -35,12 +37,7 @@ const Navbar = () => {
         {/* Logo and App Name on the left */}
         <Link as={RouterLink} to="/">
           <HStack spacing={2}>
-            <Avatar
-              size="sm"
-              src="https://cdn-icons-png.flaticon.com/512/1384/1384031.png"
-              name="Chat Logo"
-              bg="pink.200"
-            />
+            <Image boxSize={12} src={ChatLogo} name="Chat Logo" />
             <Text
               fontWeight="bold"
               fontSize="xl"

@@ -22,18 +22,13 @@ const LoginPage = () => {
   const textColor = useColorModeValue("dark.800", "white.100");
 
   return (
-    <Box
-      minH="100vh"
-      minW="100vw"
-      position="relative"
-      bgGradient="linear(to-br, teal.100, purple.100, pink.100)"
-    >
+    <Box minH="100vh" minW="100vw" position="relative">
       <Flex justifyContent="center" alignItems="center" h="100vh" w="100vw">
         <Container
-          shadow="lg"
+          shadow="2xl"
           p={4}
           rounded="lg"
-          maxW="container.xl"
+          size={"sm"}
           centerContent
           bg={containerBg}
         >

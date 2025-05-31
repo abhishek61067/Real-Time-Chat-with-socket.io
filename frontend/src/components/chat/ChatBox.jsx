@@ -8,36 +8,23 @@ import {
   Text,
   Avatar,
   Flex,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 // Dummy chat messages
 const initialMessages = [
   {
-    id: 1,
-    sender: "Alice Johnson",
-    avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-    text: "Hey, how are you?",
-    self: false,
-  },
-  {
-    id: 2,
-    sender: "You",
-    avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-    text: "I'm good! How about you?",
-    self: true,
-  },
-  {
     id: 3,
     sender: "Alice Johnson",
     avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-    text: "Doing great, thanks! And what's new with you?",
+    text: "what are you upto these days codeek?",
     self: false,
   },
   {
     id: 4,
     sender: "You",
     avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-    text: "I am trying to make a tutorial on mainlayout in react that would speed up development by 10x",
+    text: "Hey, i am making a tutorial on mainlayout in react that would speed up development by 10x",
     self: true,
   },
 ];
@@ -46,6 +33,14 @@ const ChatBox = () => {
   const [messages, setMessages] = useState(initialMessages);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef(null);
+
+  // Color mode values
+  const boxBg = useColorModeValue("white", "gray.800");
+  const msgBgSelf = useColorModeValue("blue.400", "blue.600");
+  const msgBgOther = useColorModeValue("gray.200", "gray.700");
+  const msgColorSelf = useColorModeValue("white", "white");
+  const msgColorOther = useColorModeValue("black", "gray.100");
+  const inputBg = useColorModeValue("white", "gray.700");
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -74,7 +69,7 @@ const ChatBox = () => {
   return (
     <Box
       flex="1"
-      bg="white"
+      bg={boxBg}
       borderRadius="lg"
       boxShadow="md"
       p={4}
@@ -106,8 +101,8 @@ const ChatBox = () => {
               />
             )}
             <Box
-              bg={msg.self ? "blue.400" : "gray.200"}
-              color={msg.self ? "white" : "black"}
+              bg={msg.self ? msgBgSelf : msgBgOther}
+              color={msg.self ? msgColorSelf : msgColorOther}
               px={4}
               py={2}
               borderRadius="lg"
@@ -135,6 +130,7 @@ const ChatBox = () => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
+          bg={inputBg}
         />
         <Button colorScheme="blue" onClick={handleSend}>
           Send

@@ -9,6 +9,8 @@ import {
   MenuItem,
   Link,
   useColorModeValue,
+  Badge,
+  Box,
 } from "@chakra-ui/react";
 import { IoIosNotifications } from "react-icons/io";
 import { LuChevronDown } from "react-icons/lu";
@@ -19,6 +21,9 @@ import { Link as RouterLink } from "react-router-dom";
 
 const ChatHeader = () => {
   const user = useUserStore((state) => state.user);
+
+  // Example: notification count (replace with your actual logic)
+  const notificationCount = 3;
 
   // Use color mode values for background and text
   const containerBg = useColorModeValue("white.100", "dark.800");
@@ -41,14 +46,32 @@ const ChatHeader = () => {
       </Text>
       <HStack spacing={4}>
         <Menu>
-          <MenuButton>
-            <IoNotificationsOutline size={24} />{" "}
+          <MenuButton position="relative">
+            <Box position="relative" display="inline-block">
+              <IoNotificationsOutline size={28} />
+              {notificationCount > 0 && (
+                <Badge
+                  bg={"red.700"}
+                  borderRadius="full"
+                  position="absolute"
+                  top="-1"
+                  right="-1"
+                  fontSize="0.7em"
+                  px={2}
+                  py={0.5}
+                  zIndex={1}
+                  color={"white"}
+                >
+                  {notificationCount}
+                </Badge>
+              )}
+            </Box>
           </MenuButton>
         </Menu>
         <Menu>
           <MenuButton rightIcon={<LuChevronDown />}>
             <Avatar
-              bg={"pink.100"}
+              bg={"teal.100"}
               size="md"
               src={user?.pic}
               cursor="pointer"

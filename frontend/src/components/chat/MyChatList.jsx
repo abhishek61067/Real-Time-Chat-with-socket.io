@@ -8,6 +8,7 @@ import {
   Badge,
   Circle,
   Flex,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 // Dummy user data
@@ -17,7 +18,8 @@ const users = [
     name: "Alice Johnson",
     avatar: "https://randomuser.me/api/portraits/women/44.jpg",
     online: true,
-    lastMessage: "Hey, how are you?",
+    lastMessage:
+      "Hey, i am making a tutorial on mainlayout in react that would speed up development by 10x",
   },
   {
     id: 2,
@@ -36,17 +38,23 @@ const users = [
 ];
 
 const MyChatList = () => {
+  const boxBg = useColorModeValue("white", "gray.800");
+  const hoverBg = useColorModeValue("gray.100", "gray.700");
+  const borderColor = useColorModeValue("gray.200", "gray.600");
+  const textColor = useColorModeValue("gray.800", "gray.100");
+  const subTextColor = useColorModeValue("gray.500", "gray.400");
+
   return (
     <Box
       w="320px"
-      bg="white"
+      bg={boxBg}
       borderRadius="lg"
       boxShadow="md"
       p={4}
       h="500px"
       overflowY="auto"
     >
-      <Text fontSize="xl" fontWeight="bold" mb={4}>
+      <Text fontSize="xl" fontWeight="bold" mb={4} color={textColor}>
         Chats
       </Text>
       <VStack spacing={3} align="stretch">
@@ -55,7 +63,9 @@ const MyChatList = () => {
             key={user.id}
             p={3}
             borderRadius="md"
-            _hover={{ bg: "gray.100", cursor: "pointer" }}
+            borderWidth="1px"
+            borderColor={borderColor}
+            _hover={{ bg: hoverBg, cursor: "pointer" }}
             spacing={4}
             align="center"
             position="relative"
@@ -74,8 +84,10 @@ const MyChatList = () => {
               )}
             </Box>
             <Flex direction="column" flex="1">
-              <Text fontWeight="medium">{user.name}</Text>
-              <Text fontSize="sm" color="gray.500" noOfLines={1}>
+              <Text fontWeight="medium" color={textColor}>
+                {user.name}
+              </Text>
+              <Text fontSize="sm" color={subTextColor} noOfLines={1}>
                 {user.lastMessage}
               </Text>
             </Flex>
