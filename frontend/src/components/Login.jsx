@@ -9,6 +9,7 @@ import {
   InputGroup,
   InputRightElement,
   IconButton,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useForm, Controller } from "react-hook-form";
@@ -27,6 +28,10 @@ const schema = Yup.object().shape({
 });
 
 const LoginPage = () => {
+  // color mode
+  const containerBg = useColorModeValue("white.100", "dark.800");
+  const textColor = useColorModeValue("dark.800", "white.100");
+
   const { state } = useLocation();
   console.log("🚀 ~ LoginPage from:", state?.from ?? null);
   const { setUser } = useUserStore();
@@ -60,6 +65,13 @@ const LoginPage = () => {
       })
       .catch((error) => {
         console.error("Login failed:", error);
+        toast({
+          title: "Login failed",
+          description: error.response.data.message,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
         // Handle login error (e.g., show error message)
       });
     // Add your login logic here
@@ -77,7 +89,7 @@ const LoginPage = () => {
       spacing={4}
       align="stretch"
     >
-      <Text fontSize="4xl" color="black">
+      <Text fontSize="2xl" color={textColor}>
         Login
       </Text>
 

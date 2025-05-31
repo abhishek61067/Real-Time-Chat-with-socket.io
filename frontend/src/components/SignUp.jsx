@@ -103,9 +103,7 @@ const SignUp = () => {
       spacing={4}
       align="stretch"
     >
-      <Text fontSize="2xl" fontWeight="bold">
-        SignUp
-      </Text>
+      <Text fontSize="2xl">SignUp</Text>
 
       {/* Name Field */}
       <FormControl isInvalid={errors.name}>

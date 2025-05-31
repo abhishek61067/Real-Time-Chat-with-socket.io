@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Drawer,
   DrawerBody,
@@ -12,13 +13,34 @@ import {
   InputGroup,
   InputLeftElement,
   Box,
+  HStack,
+  useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import { useRef } from "react";
 import { LuSearch } from "react-icons/lu";
+import { useSearchUsers } from "../../api/users";
+import UserListItem from "../user/UserListItem";
 
 const SideDrawer = () => {
+  const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
+  const [search, setSearch] = useState("");
+  const { data, isLoading, isError, error } = useSearchUsers(search);
+  const handleSearch = () => {
+    if (search === "") {
+      toast({
+        title: "Please enter a search term",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    } else {
+      console.log(data);
+    }
+  };
 
   return (
     <>
@@ -37,6 +59,7 @@ const SideDrawer = () => {
         placement="left"
         onClose={onClose}
         finalFocusRef={btnRef}
+        size={"sm"}
       >
         <DrawerOverlay />
         <DrawerContent>
@@ -44,7 +67,26 @@ const SideDrawer = () => {
           <DrawerHeader>Create your account</DrawerHeader>
 
           <DrawerBody>
-            <Input placeholder="Type here..." />
+            <HStack>
+              <Input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Type here..."
+              />
+              <Button onClick={handleSearch}>GO</Button>
+            </HStack>
+
+            <Box mt={4}>
+              {isLoading ? (
+                <Spinner size="sm" color="secondary.500" />
+              ) : isError ? (
+                <p>Error: {error.message}</p>
+              ) : data && data.length > 0 ? (
+                data.map((user) => <UserListItem key={user.id} user={user} />)
+              ) : (
+                <p>No users found</p>
+              )}
+            </Box>
           </DrawerBody>
 
           <DrawerFooter>

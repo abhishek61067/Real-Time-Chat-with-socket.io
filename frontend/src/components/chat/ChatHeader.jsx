@@ -7,21 +7,28 @@ import {
   Avatar,
   MenuList,
   MenuItem,
+  Link,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { IoIosNotifications } from "react-icons/io";
 import { LuChevronDown } from "react-icons/lu";
 import SideDrawer from "./SideDrawer";
 import ProfileModal from "../user/ProfileModal";
 import { useUserStore } from "../../store/chatStore";
+import { Link as RouterLink } from "react-router-dom";
 
 const ChatHeader = () => {
   const user = useUserStore((state) => state.user);
+
+  // Use color mode values for background and text
+  const containerBg = useColorModeValue("white.100", "dark.800");
+  const textColor = useColorModeValue("dark.800", "white.100");
 
   return (
     <HStack
       shadow="md"
       p={4}
-      bgGradient="linear(to-r, teal.50, purple.50, teal.50)"
+      bg={containerBg}
       top={0}
       left={0}
       right={0}
@@ -29,7 +36,7 @@ const ChatHeader = () => {
       justify="space-between"
     >
       <SideDrawer />
-      <Text fontSize="3xl" fontWeight="bold">
+      <Text fontSize="3xl" fontWeight="bold" color={textColor}>
         Chat Application
       </Text>
       <HStack spacing={4}>
@@ -52,7 +59,11 @@ const ChatHeader = () => {
             <MenuItem>
               <ProfileModal user={user} />
             </MenuItem>
-            <MenuItem>Logout</MenuItem>
+            <MenuItem>
+              <Link w={"full"} as={RouterLink} to="/logout">
+                Logout
+              </Link>
+            </MenuItem>
           </MenuList>
         </Menu>
       </HStack>

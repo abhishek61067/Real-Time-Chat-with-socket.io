@@ -10,6 +10,7 @@ import {
   Button,
   Box,
   Image,
+  Text,
 } from "@chakra-ui/react";
 import { useUserStore } from "@/store/chatStore";
 
@@ -21,12 +22,16 @@ const ProfileModal = ({ user }) => {
         My Profile
       </Box>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{user.name}</ModalHeader>
+          <ModalHeader textAlign={"center"}>
+            <Text fontSize="2xl" fontWeight="bold">
+              {user.name}
+            </Text>
+          </ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody display="flex" flexDirection="column" alignItems="center">
             <Image
               borderRadius="full"
               boxSize="150px"
@@ -38,13 +43,13 @@ const ProfileModal = ({ user }) => {
               alt={user.name}
               mb={4}
             />
+            <Text>Email: {user.email}</Text>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <Button colorScheme="gray" mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button variant="ghost">Secondary Action</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

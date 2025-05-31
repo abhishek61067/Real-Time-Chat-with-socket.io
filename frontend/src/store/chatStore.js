@@ -8,6 +8,7 @@ export const useUserStore = create((set) => ({
     set({ user });
     if (user) {
       localStorage.setItem("userInfo", JSON.stringify(user));
+      removeToken(); // Clear any existing token
       setToken(user.token);
     } else {
       localStorage.removeItem("userInfo");
@@ -21,6 +22,7 @@ export const useUserStore = create((set) => ({
 
       if (userData) {
         set({ user: JSON.parse(userData) });
+        removeToken();
         setToken(JSON.parse(userData).token);
         return true;
       } else {
