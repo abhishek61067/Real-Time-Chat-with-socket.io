@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Drawer,
   DrawerBody,
@@ -10,14 +10,12 @@ import {
   useDisclosure,
   Button,
   Input,
-  InputGroup,
-  InputLeftElement,
-  Box,
   HStack,
   useToast,
   Spinner,
+  useColorModeValue,
+  Box,
 } from "@chakra-ui/react";
-import { useRef } from "react";
 import { LuSearch } from "react-icons/lu";
 import { useSearchUsers } from "../../api/users";
 import UserListItem from "../user/UserListItem";
@@ -28,6 +26,11 @@ const SideDrawer = () => {
   const btnRef = useRef();
   const [search, setSearch] = useState("");
   const { data, isLoading, isError, error } = useSearchUsers(search);
+
+  // Color mode values
+  const drawerBg = useColorModeValue("white", "gray.800");
+  const headerColor = useColorModeValue("teal.700", "teal.200");
+
   const handleSearch = () => {
     if (search === "") {
       toast({
@@ -62,9 +65,9 @@ const SideDrawer = () => {
         size={"sm"}
       >
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent bg={drawerBg} borderRadius="md">
           <DrawerCloseButton />
-          <DrawerHeader>Create your account</DrawerHeader>
+          <DrawerHeader color={headerColor}>Create your account</DrawerHeader>
 
           <DrawerBody>
             <HStack>
@@ -78,7 +81,7 @@ const SideDrawer = () => {
 
             <Box mt={4}>
               {isLoading ? (
-                <Spinner size="sm" color="secondary.500" />
+                <Spinner size="sm" color="teal.500" />
               ) : isError ? (
                 <p>Error: {error.message}</p>
               ) : data && data.length > 0 ? (

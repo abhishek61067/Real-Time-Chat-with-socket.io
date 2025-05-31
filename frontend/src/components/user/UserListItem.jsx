@@ -1,17 +1,31 @@
-import { Box, Image, Text, VStack, Divider, HStack } from "@chakra-ui/react";
+import {
+  Box,
+  Image,
+  Text,
+  VStack,
+  Divider,
+  HStack,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import React from "react";
 
 const UserListItem = ({ user }) => {
+  const bg = useColorModeValue("gray.50", "gray.800");
+  const hoverBg = useColorModeValue("gray.200", "gray.700");
+  const borderColor = useColorModeValue("gray.200", "gray.600");
+  const textColor = useColorModeValue("gray.800", "gray.100");
+  const emailColor = useColorModeValue("gray.500", "gray.400");
+
   return (
     <Box
       w="100%"
       p={3}
-      bg={"gray.50"}
+      bg={bg}
       cursor="pointer"
       borderRadius="md"
       borderWidth="1px"
-      borderColor="gray.200"
-      _hover={{ bg: "gray.200", boxShadow: "sm" }}
+      borderColor={borderColor}
+      _hover={{ bg: hoverBg, boxShadow: "sm" }}
       transition="all 0.2s"
       mb={2}
     >
@@ -26,13 +40,13 @@ const UserListItem = ({ user }) => {
           borderRadius="full"
           alt={user.name}
           border="2px solid"
-          borderColor="gray.100"
+          borderColor={borderColor}
         />
         <VStack align="start" spacing={0}>
-          <Text fontWeight="bold" fontSize="md">
+          <Text fontWeight="bold" fontSize="md" color={textColor}>
             {user.name}
           </Text>
-          <Text noOfLines={1} color="gray.500" fontSize="sm">
+          <Text noOfLines={1} color={emailColor} fontSize="sm">
             {user.email}
           </Text>
         </VStack>
