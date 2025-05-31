@@ -7,6 +7,9 @@ const config = {
 
 export const theme = extendTheme({
   config,
+  fonts: {
+    body: `"Inter", sans-serif`,
+  },
   colors: {
     white: {
       50: "#ffffff", // pure white
