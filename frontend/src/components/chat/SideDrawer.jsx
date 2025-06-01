@@ -20,7 +20,7 @@ import { LuSearch } from "react-icons/lu";
 import { useSearchUsers } from "../../api/users";
 import UserListItem from "../user/UserListItem";
 import { useCreateChat } from "../../api/chat";
-import { useSelectedChatStore } from "../../store/chatStore";
+import { useChatStore, useSelectedChatStore } from "../../store/chatStore";
 
 const SideDrawer = () => {
   const toast = useToast();
@@ -28,7 +28,8 @@ const SideDrawer = () => {
   const btnRef = useRef();
   const [search, setSearch] = useState("");
   const { data, isLoading, isError, error } = useSearchUsers(search);
-  const { mutateAsync: createChat } = useCreateChat();
+  const { mutateAsync: createChat, isLoading: createChatIsLoading } =
+    useCreateChat();
 
   // Color mode values
   const drawerBg = useColorModeValue("white", "gray.800");
@@ -44,6 +45,7 @@ const SideDrawer = () => {
       });
       return;
     } else {
+      // since search is used in useSearchUsers, it will automatically trigger the API call
       console.log(data);
     }
   };
@@ -51,13 +53,25 @@ const SideDrawer = () => {
   const setSelectedChat = useSelectedChatStore(
     (state) => state.setSelectedChat
   );
+  const chats = useChatStore((state) => state.chats);
+  const setChats = useChatStore((state) => state.setChats);
 
-  const accessChat = (userId) => {
+  const accessOrCreateChat = (userId) => {
     createChat(userId)
       .then((chat) => {
-        console.log("Chat created successfully:", chat);
         onClose();
+        // append the new chat to the chats array if it doesn't already exist
+        if (!chats.find((c) => c._id === chat._id)) {
+          setChats([...chats, chat]);
+        }
         setSelectedChat(chat);
+        toast({
+          title: "Chat created successfully",
+          description: "You can now start chatting with the user.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
       })
       .catch((err) => {
         console.error("Error creating chat:", err);
@@ -115,8 +129,8 @@ const SideDrawer = () => {
                   <UserListItem
                     key={user._id}
                     user={user}
-                    accessChat={() => {
-                      accessChat(user._id);
+                    accessOrCreateChat={() => {
+                      accessOrCreateChat(user._id);
                     }}
                   />
                 ))
@@ -124,6 +138,7 @@ const SideDrawer = () => {
                 <p>No users found</p>
               )}
             </Box>
+            {createChatIsLoading && <Spinner size="sm" color="teal.500" />}
           </DrawerBody>
 
           <DrawerFooter>

@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 
-const UserListItem = ({ user, accessChat }) => {
+const UserListItem = ({ user, accessOrCreateChat }) => {
   const bg = useColorModeValue("gray.50", "gray.800");
   const hoverBg = useColorModeValue("gray.200", "gray.700");
   const borderColor = useColorModeValue("gray.200", "gray.600");
@@ -28,6 +28,7 @@ const UserListItem = ({ user, accessChat }) => {
       _hover={{ bg: hoverBg, boxShadow: "sm" }}
       transition="all 0.2s"
       mb={2}
+      onClick={() => accessOrCreateChat(user._id)}
     >
       <HStack spacing={4} align="center">
         <Image

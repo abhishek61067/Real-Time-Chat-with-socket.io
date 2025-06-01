@@ -16,7 +16,7 @@ export const useReadChat = () => {
 
 // create
 const createChat = async (userId) => {
-  const response = await axiosInstance.post("api/chats", {
+  const response = await axiosInstance.post("api/chat", {
     userId,
   });
   return response.data;

@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import React, { useEffect } from "react";
 import {
   Box,
   VStack,
@@ -10,6 +9,7 @@ import {
   Circle,
   Flex,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import {
   useChatStore,
