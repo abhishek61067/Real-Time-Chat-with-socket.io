@@ -47,7 +47,7 @@ const MyChatList = () => {
         title: "Error fetching chats",
         description: error.message,
         status: "error",
-        duration: 3000,
+        duration: 2000,
         isClosable: true,
       });
     }
