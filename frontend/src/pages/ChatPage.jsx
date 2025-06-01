@@ -11,16 +11,6 @@ import ChatBox from "../components/chat/ChatBox";
 import MyChatList from "../components/chat/MyChatList";
 
 const ChatPage = () => {
-  const user = useUserStore((state) => state.user);
-  const navigate = useNavigate();
-  const { data: chats, isLoading, error } = useReadChat();
-
-  if (isLoading) return <Loader />;
-  if (error) return <Error message={error.message} />;
-  if (!chats || chats.length === 0) return <div>No chats available</div>;
-
-  console.log("user: ", user);
-
   return (
     <Box height={"100vh"}>
       <ChatHeader />

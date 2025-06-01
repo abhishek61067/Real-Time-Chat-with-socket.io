@@ -10,6 +10,7 @@ import {
   Flex,
   useColorModeValue,
   useToast,
+  Button,
 } from "@chakra-ui/react";
 import {
   useChatStore,
@@ -17,6 +18,8 @@ import {
   useUserStore,
 } from "../../store/chatStore";
 import { useReadChat } from "../../api/chat";
+import { IoIosAdd } from "react-icons/io";
+import { getSenderName } from "./../../utils/chat/chat";
 
 // Dummy user data
 
@@ -62,10 +65,79 @@ const MyChatList = () => {
       p={4}
       h="500px"
       overflowY="auto"
+      display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
+      flexDirection="column"
+      justify={"start"}
     >
-      <Text fontSize="xl" fontWeight="bold" mb={4} color={textColor}>
-        Chats
-      </Text>
+      <HStack justify={"space-between"} mb={4}>
+        {/* text chat and a button for group chat */}
+        <Text fontSize="xl" fontWeight="bold" color={textColor}>
+          Chats
+        </Text>
+        <Button rightIcon={<IoIosAdd />} colorScheme="teal" variant="outline">
+          <Text fontSize="sm" color={subTextColor}>
+            New Group
+          </Text>
+        </Button>
+      </HStack>
+      <VStack spacing={3} align="stretch">
+        {chats.map((chat) => (
+          <Box
+            key={chat._id}
+            p={3}
+            borderRadius="md"
+            bg={selectedChat?._id === chat._id ? "gray.700" : boxBg}
+            borderWidth={1}
+            borderColor={
+              selectedChat?._id === chat._id ? "teal.200" : borderColor
+            }
+            _hover={{ bg: hoverBg, cursor: "pointer" }}
+            onClick={() => setSelectedChat(chat)}
+          >
+            {!chat.isGroupChat ? (
+              <HStack>
+                <Avatar name={chat.users[0].name || "Abhishek"} size="sm" />
+                <VStack align="start" spacing={0}>
+                  <Text fontWeight="bold" color={textColor}>
+                    {getSenderName(user, chat.users)}
+                  </Text>
+                  <Text fontSize="sm" color={subTextColor}>
+                    {chat.latestMessage?.content || "No messages yet"}
+                  </Text>
+                </VStack>
+                <Flex align="center" justify="center">
+                  <Circle size="3" bg="green.300" />
+                </Flex>
+              </HStack>
+            ) : (
+              <HStack>
+                <Avatar name={chat.chatName} size="sm" />
+                <VStack align="start" spacing={0}>
+                  <Text fontWeight="bold" color={textColor}>
+                    {chat.chatName}
+                  </Text>
+                  <Text fontSize="sm" color={subTextColor}>
+                    {chat.latestMessage?.content || "No messages yet"}
+                  </Text>
+                </VStack>
+                <Flex align="center" justify="center">
+                  <Circle size="20px" bg="green.300" />
+                </Flex>
+              </HStack>
+            )}
+          </Box>
+        ))}
+        {isLoading && (
+          <Text color={subTextColor} textAlign="center">
+            Loading chats...
+          </Text>
+        )}
+        {chats.length === 0 && !isLoading && (
+          <Text color={subTextColor} textAlign="center">
+            No chats available
+          </Text>
+        )}
+      </VStack>
     </Box>
   );
 };
