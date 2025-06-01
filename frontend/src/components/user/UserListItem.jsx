@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 
-const UserListItem = ({ user }) => {
+const UserListItem = ({ user, accessChat }) => {
   const bg = useColorModeValue("gray.50", "gray.800");
   const hoverBg = useColorModeValue("gray.200", "gray.700");
   const borderColor = useColorModeValue("gray.200", "gray.600");

@@ -19,6 +19,8 @@ import {
 import { LuSearch } from "react-icons/lu";
 import { useSearchUsers } from "../../api/users";
 import UserListItem from "../user/UserListItem";
+import { useCreateChat } from "../../api/chat";
+import { useSelectedChatStore } from "../../store/chatStore";
 
 const SideDrawer = () => {
   const toast = useToast();
@@ -26,6 +28,7 @@ const SideDrawer = () => {
   const btnRef = useRef();
   const [search, setSearch] = useState("");
   const { data, isLoading, isError, error } = useSearchUsers(search);
+  const { mutateAsync: createChat } = useCreateChat();
 
   // Color mode values
   const drawerBg = useColorModeValue("white", "gray.800");
@@ -43,6 +46,29 @@ const SideDrawer = () => {
     } else {
       console.log(data);
     }
+  };
+
+  const setSelectedChat = useSelectedChatStore(
+    (state) => state.setSelectedChat
+  );
+
+  const accessChat = (userId) => {
+    createChat(userId)
+      .then((chat) => {
+        console.log("Chat created successfully:", chat);
+        onClose();
+        setSelectedChat(chat);
+      })
+      .catch((err) => {
+        console.error("Error creating chat:", err);
+        toast({
+          title: "Error creating chat",
+          description: err.message,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      });
   };
 
   return (
@@ -85,7 +111,15 @@ const SideDrawer = () => {
               ) : isError ? (
                 <p>Error: {error.message}</p>
               ) : data && data.length > 0 ? (
-                data.map((user) => <UserListItem key={user.id} user={user} />)
+                data.map((user) => (
+                  <UserListItem
+                    key={user._id}
+                    user={user}
+                    accessChat={() => {
+                      accessChat(user._id);
+                    }}
+                  />
+                ))
               ) : (
                 <p>No users found</p>
               )}

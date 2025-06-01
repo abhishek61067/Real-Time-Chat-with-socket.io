@@ -2,6 +2,7 @@
 import { create } from "zustand";
 import { removeToken, setToken } from "../utils/token";
 
+// userStore
 export const useUserStore = create((set) => ({
   user: null,
   setUser: (user) => {
@@ -41,4 +42,16 @@ export const useUserStore = create((set) => ({
     set({ user: null });
     localStorage.removeItem("userInfo");
   },
+}));
+
+//selectedChatStore
+export const useSelectedChatStore = create((set) => ({
+  selectedChat: null,
+  setSelectedChat: (selectedChat) => set({ selectedChat }),
+}));
+
+// chatStore
+export const useChatStore = create((set) => ({
+  chats: [],
+  setChats: (chats) => set({ chats }),
 }));

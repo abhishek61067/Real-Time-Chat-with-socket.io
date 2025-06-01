@@ -4,7 +4,7 @@ import Loader from "../components/loader";
 import Error from "../components/error";
 import { useUserStore } from "../store/chatStore";
 import { useNavigate } from "react-router-dom";
-import { useChats } from "../api/chat";
+import { useReadChat } from "../api/chat";
 import ChatHeader from "../components/chat/ChatHeader";
 import MyChat from "../components/chat/MyChatList";
 import ChatBox from "../components/chat/ChatBox";
@@ -13,7 +13,7 @@ import MyChatList from "../components/chat/MyChatList";
 const ChatPage = () => {
   const user = useUserStore((state) => state.user);
   const navigate = useNavigate();
-  const { data: chats, isLoading, error } = useChats();
+  const { data: chats, isLoading, error } = useReadChat();
 
   if (isLoading) return <Loader />;
   if (error) return <Error message={error.message} />;
