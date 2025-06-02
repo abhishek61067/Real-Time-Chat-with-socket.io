@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useState } from "react";
 import {
   Box,
   VStack,
@@ -20,8 +20,7 @@ import {
 import { useReadChat } from "../../api/chat";
 import { IoIosAdd } from "react-icons/io";
 import { getSenderName } from "./../../utils/chat/chat";
-
-// Dummy user data
+import GroupChatModal from "./GroupChatModal";
 
 const MyChatList = () => {
   const boxBg = useColorModeValue("white", "gray.800");
@@ -31,18 +30,22 @@ const MyChatList = () => {
   const subTextColor = useColorModeValue("gray.500", "gray.400");
 
   const user = useUserStore((state) => state.user);
+
+  // selected chat state
   const selectedChat = useSelectedChatStore((state) => state.selectedChat);
   const setSelectedChat = useSelectedChatStore(
     (state) => state.setSelectedChat
   );
+  // chats state
   const chats = useChatStore((state) => state.chats);
   const setChats = useChatStore((state) => state.setChats);
 
   const toast = useToast();
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const { data, isLoading, isError, error } = useReadChat();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (data) {
       setChats(data);
     } else if (isError) {
@@ -55,6 +58,16 @@ const MyChatList = () => {
       });
     }
   }, [data, setChats]);
+
+  const handleCreateGroup = (groupName) => {
+    // TODO: Add your group chat creation logic here
+    toast({
+      title: `Group "${groupName}" created!`,
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
+  };
 
   return (
     <Box
@@ -70,13 +83,17 @@ const MyChatList = () => {
       justify={"start"}
     >
       <HStack justify={"space-between"} mb={4}>
-        {/* text chat and a button for group chat */}
         <Text fontSize="xl" fontWeight="bold" color={textColor}>
           Chats
         </Text>
-        <Button rightIcon={<IoIosAdd />} colorScheme="teal" variant="outline">
+        <Button
+          rightIcon={<IoIosAdd />}
+          colorScheme="teal"
+          variant="outline"
+          onClick={() => setModalOpen(true)}
+        >
           <Text fontSize="sm" color={subTextColor}>
-            New Group
+            New Group Chat
           </Text>
         </Button>
       </HStack>
@@ -138,6 +155,13 @@ const MyChatList = () => {
           </Text>
         )}
       </VStack>
+
+      {/* Group Chat Modal */}
+      <GroupChatModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        onCreate={handleCreateGroup}
+      />
     </Box>
   );
 };

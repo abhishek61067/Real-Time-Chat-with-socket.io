@@ -56,8 +56,8 @@ const SideDrawer = () => {
   const chats = useChatStore((state) => state.chats);
   const setChats = useChatStore((state) => state.setChats);
 
-  const accessOrCreateChat = (userId) => {
-    createChat(userId)
+  const accessOrCreateChat = (user) => {
+    createChat(user._id)
       .then((chat) => {
         onClose();
         // append the new chat to the chats array if it doesn't already exist
@@ -129,8 +129,8 @@ const SideDrawer = () => {
                   <UserListItem
                     key={user._id}
                     user={user}
-                    accessOrCreateChat={() => {
-                      accessOrCreateChat(user._id);
+                    handleFunction={() => {
+                      accessOrCreateChat(user);
                     }}
                   />
                 ))

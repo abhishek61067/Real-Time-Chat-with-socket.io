@@ -15,5 +15,6 @@ export const useSearchUsers = (search) => {
   return useQuery({
     queryKey: ["users", search], // Unique key for the query
     queryFn: () => fetchUsers(search), // Function to fetch data
+    enabled: !!search, // Only run the query if search is not empty
   });
 };

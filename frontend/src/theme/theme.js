@@ -11,18 +11,10 @@ export const theme = extendTheme({
     body: `"Inter", sans-serif`,
   },
   colors: {
-    white: {
-      50: "#ffffff", // pure white
-      100: "#f8f9fa",
-      200: "#f1f3f4",
-      300: "#ececec",
-      400: "#e6e6e6",
-      500: "#dddddd",
-      600: "#cccccc",
-      700: "#bbbbbb",
-      800: "#aaaaaa",
-      900: "#999999", // lightest gray, not black
-    },
+    // default dark color of chakra component
+    // gray: {
+    //   700: "#f00",
+    // },
     dark: {
       50: "#f4f6f8",
       100: "#e9ecef",

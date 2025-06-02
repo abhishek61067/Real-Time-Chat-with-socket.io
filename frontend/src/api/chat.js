@@ -32,3 +32,20 @@ export const useCreateChat = () => {
     },
   });
 };
+
+// group chat
+const createGroupChat = async (formData) => {
+  const response = await axiosInstance.post("api/chat/group", formData);
+  return response.data;
+};
+
+export const useCreateGroupChat = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (formData) => createGroupChat(formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["chats"] });
+    },
+  });
+};
