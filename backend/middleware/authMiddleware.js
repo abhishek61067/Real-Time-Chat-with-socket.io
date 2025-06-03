@@ -2,6 +2,8 @@ import jwt from "jsonwebtoken";
 import expressAsyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 
+// to protect routes, we will use this middleware
+// This middleware verifies if the request has a valid JWT token in the Authorization header
 export const protect = expressAsyncHandler(async (req, res, next) => {
   let token;
 
