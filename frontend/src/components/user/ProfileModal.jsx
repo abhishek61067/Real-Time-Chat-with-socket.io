@@ -13,14 +13,23 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useUserStore } from "@/store/chatStore";
+import { FaRegEye } from "react-icons/fa";
 
-const ProfileModal = ({ user }) => {
+const ProfileModal = ({ user, displayText = true }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Box w={"100%"} onClick={onOpen}>
+      <Box
+        display={!displayText ? "none" : "block"}
+        w={"100%"}
+        onClick={onOpen}
+      >
         My Profile
       </Box>
+
+      <Button display={!displayText ? "block" : "none"} onClick={onOpen}>
+        <FaRegEye />
+      </Button>
 
       <Modal isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

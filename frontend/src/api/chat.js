@@ -49,3 +49,53 @@ export const useCreateGroupChat = () => {
     },
   });
 };
+
+// update group chat name
+const updateGroupChatName = async (formData) => {
+  const response = await axiosInstance.put("api/chat/group/rename", formData);
+  return response.data;
+};
+
+export const useUpdateGroupChatName = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (formData) => updateGroupChatName(formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["chats"] });
+    },
+  });
+};
+
+// add user to group chat
+const addUserToGroupChat = async (formData) => {
+  const response = await axiosInstance.put("api/chat/group/add", formData);
+  return response.data;
+};
+export const useAddUserToGroupChat = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (formData) => addUserToGroupChat(formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["chats"] });
+    },
+  });
+};
+
+// remove user from group chat
+const removeUserFromGroupChat = async (formData) => {
+  const response = await axiosInstance.put("api/chat/group/remove", formData);
+  return response.data;
+};
+
+export const useRemoveUserFromGroupChat = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (formData) => removeUserFromGroupChat(formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["chats"] });
+    },
+  });
+};

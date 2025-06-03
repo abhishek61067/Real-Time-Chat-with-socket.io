@@ -151,6 +151,7 @@ const GroupChatModal = ({ isOpen, onClose }) => {
               </FormErrorMessage>
             </FormControl>
 
+            {/* for displaying badges after user select on the searched user lists */}
             {selectedUsers.length > 0 && (
               <HStack mb={3} spacing={2}>
                 {selectedUsers.map((user) => (

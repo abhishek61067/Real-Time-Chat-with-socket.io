@@ -12,10 +12,12 @@ const Footer = () => {
       bg={bg}
       textAlign="center"
       boxShadow="sm"
-      position="relative"
-      bottom={0}
       fontSize="sm"
       color={color}
+      position="fixed"
+      bottom={0}
+      left={0}
+      right={0}
     >
       <Text>
         &copy; {new Date().getFullYear()} MERN Chat App. Made with ❤️ by Codeek

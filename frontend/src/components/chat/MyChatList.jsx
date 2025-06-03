@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   VStack,
@@ -36,6 +36,11 @@ const MyChatList = () => {
   const setSelectedChat = useSelectedChatStore(
     (state) => state.setSelectedChat
   );
+
+  useEffect(() => {
+    console.log("Selected chat changed:", selectedChat);
+  }, [selectedChat, setSelectedChat]);
+
   // chats state
   const chats = useChatStore((state) => state.chats);
   const setChats = useChatStore((state) => state.setChats);
@@ -71,12 +76,12 @@ const MyChatList = () => {
 
   return (
     <Box
-      w="320px"
+      w={{ base: "100%", md: "30%" }}
       bg={boxBg}
       borderRadius="lg"
       boxShadow="md"
       p={4}
-      h="500px"
+      h={"100vh"}
       overflowY="auto"
       display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
       flexDirection="column"
