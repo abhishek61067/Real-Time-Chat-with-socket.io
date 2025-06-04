@@ -81,7 +81,7 @@ const MyChatList = () => {
       borderRadius="lg"
       boxShadow="md"
       p={4}
-      h={"100vh"}
+      h={"75vh"}
       overflowY="auto"
       display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
       flexDirection="column"
@@ -118,7 +118,10 @@ const MyChatList = () => {
           >
             {!chat.isGroupChat ? (
               <HStack>
-                <Avatar name={chat.users[0].name || "Abhishek"} size="sm" />
+                <Avatar
+                  name={getSenderName(user, chat.users) || "Abhishek"}
+                  size="sm"
+                />
                 <VStack align="start" spacing={0}>
                   <Text fontWeight="bold" color={textColor}>
                     {getSenderName(user, chat.users)}

@@ -23,7 +23,7 @@ const ChatBox = () => {
   return (
     <Box
       w={{ base: "100%", md: "70%" }}
-      h="100vh"
+      h="75vh"
       bg={boxBg}
       d={{ base: selectedChat ? "flex" : "none", md: "flex" }}
     >

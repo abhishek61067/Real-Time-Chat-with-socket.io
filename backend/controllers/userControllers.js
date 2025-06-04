@@ -110,3 +110,13 @@ export const allUsers = expressAsyncHandler(async (req, res) => {
 
   res.send(users);
 });
+export const deleteAllUsers = expressAsyncHandler(async (req, res) => {
+  try {
+    await User.deleteMany({});
+
+    res.status(200).json({ message: "All users deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting all users:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
