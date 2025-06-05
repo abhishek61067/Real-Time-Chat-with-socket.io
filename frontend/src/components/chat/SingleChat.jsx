@@ -151,8 +151,8 @@ const SingleChat = () => {
             <Lottie
               animationData={typingAnimation}
               style={{
-                width: "50px",
-                height: "20px",
+                width: "60px",
+                height: "30px",
               }}
             />
           ) : (
