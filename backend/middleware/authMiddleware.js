@@ -13,9 +13,7 @@ export const protect = expressAsyncHandler(async (req, res, next) => {
   ) {
     try {
       token = req.headers.authorization.split(" ")[1];
-      console.log("jwt secret: ", process.env.JWT_SECRET);
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      console.log("decoded: ", decoded);
       req.user = await User.findById(decoded.id).select("-password");
       next();
     } catch (error) {

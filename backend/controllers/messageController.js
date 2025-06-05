@@ -17,6 +17,8 @@ export const sendMessage = expressAsyncHandler(async (req, res) => {
     chat: chatId,
   };
 
+  console.log("message sent by".green, req.user.name);
+
   try {
     var message = await Message.create(newMessage);
 

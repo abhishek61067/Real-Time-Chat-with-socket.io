@@ -30,18 +30,28 @@ io.on("connection", (socket) => {
   console.log("A user connected:", socket.id);
 
   // Example: join a chat room
-  socket.on("join_chat", (roomId) => {
-    socket.join(roomId);
-    console.log(`User ${socket.id} joined room ${roomId}`);
+  socket.on("setup", (user) => {
+    socket.join(user._id);
+    console.log("socket user id: ", user._id.bgCyan);
+    socket.emit("connected");
   });
 
-  // Example: send and receive messages
-  socket.on("send_message", (data) => {
-    // data should include { roomId, message }
-    io.to(data.roomId).emit("receive_message", data);
+  socket.on("join chat", (room) => {
+    socket.join(room);
+    console.log("User Joined Room: ".green + room);
   });
 
-  socket.on("disconnect", () => {
-    console.log("User disconnected:", socket.id);
+  // typing
+  socket.on("typing", (room) => socket.in(room).emit("typing"));
+  socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
+
+  socket.on("new message", (newMessage) => {
+    var chat = newMessage.chat;
+
+    if (!chat.users) return console.log("chat.user not defined");
+    chat.users.forEach((user) => {
+      if (user._id == newMessage.sender._id) return;
+      socket.in(user._id).emit("message received", newMessage);
+    });
   });
 });

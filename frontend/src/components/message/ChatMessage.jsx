@@ -1,4 +1,4 @@
-import { Box, Avatar } from "@chakra-ui/react";
+import { Box, Avatar, Tooltip } from "@chakra-ui/react";
 import React from "react";
 import { useUserStore } from "../../store/chatStore";
 
@@ -17,18 +17,20 @@ const ChatMessage = ({ data }) => {
             mb={2}
           >
             {!isSelf && (
-              <Avatar
-                src={
-                  message.sender.pic?.startsWith("http")
-                    ? message.sender.pic
-                    : message.sender.pic
-                    ? `data:image;base64,${message.sender.pic}`
-                    : undefined
-                }
-                name={message.sender.name}
-                size="sm"
-                mr={2}
-              />
+              <Tooltip label={message.sender.name}>
+                <Avatar
+                  src={
+                    message.sender.pic?.startsWith("http")
+                      ? message.sender.pic
+                      : message.sender.pic
+                      ? `data:image;base64,${message.sender.pic}`
+                      : undefined
+                  }
+                  name={message.sender.name}
+                  size="sm"
+                  mr={2}
+                />
+              </Tooltip>
             )}
             <Box
               bg={isSelf ? "blue.500" : "gray.200"}
