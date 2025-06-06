@@ -16,14 +16,25 @@ import { IoIosNotifications } from "react-icons/io";
 import { LuChevronDown } from "react-icons/lu";
 import SideDrawer from "./SideDrawer";
 import ProfileModal from "../user/ProfileModal";
-import { useUserStore } from "../../store/chatStore";
+import { useSelectedChatStore, useUserStore } from "../../store/chatStore";
 import { Link as RouterLink } from "react-router-dom";
+import useNotificationStore from "./../../store/notificationStore";
 
 const ChatHeader = () => {
   const user = useUserStore((state) => state.user);
 
+  // notification
+  const notification = useNotificationStore((state) => state.notification);
+  const setNotification = useNotificationStore(
+    (state) => state.setNotification
+  );
+
+  //selected chat
+  const setSelectedChat = useSelectedChatStore(
+    (state) => state.setSelectedChat
+  );
+
   // Example: notification count (replace with your actual logic)
-  const notificationCount = 3;
 
   // Use color mode values for background and text
   const containerBg = useColorModeValue("white.100", "dark.800");
@@ -49,7 +60,7 @@ const ChatHeader = () => {
           <MenuButton position="relative">
             <Box position="relative" display="inline-block">
               <IoNotificationsOutline size={28} />
-              {notificationCount > 0 && (
+              {notification.length > 0 && (
                 <Badge
                   bg={"red.700"}
                   borderRadius="full"
@@ -62,11 +73,30 @@ const ChatHeader = () => {
                   zIndex={1}
                   color={"white"}
                 >
-                  {notificationCount}
+                  {notification.length}
                 </Badge>
               )}
             </Box>
           </MenuButton>
+          <MenuList p={2}>
+            {notification.length === 0 && "No new notifications!"}
+            {notification.length > 0 &&
+              notification.map((notif) => (
+                <MenuItem
+                  key={notif._id}
+                  onClick={() => {
+                    setNotification(
+                      notification.filter((n) => n._id !== notif._id)
+                    );
+                    setSelectedChat(notif.chat);
+                  }}
+                >
+                  {notif.chat.isGroupChat
+                    ? `New message in ${notif.chat.chatName}`
+                    : `New message from ${notif.sender.name}`}
+                </MenuItem>
+              ))}
+          </MenuList>
         </Menu>
         <Menu>
           <MenuButton rightIcon={<LuChevronDown />}>

@@ -37,10 +37,6 @@ const MyChatList = () => {
     (state) => state.setSelectedChat
   );
 
-  useEffect(() => {
-    console.log("Selected chat changed:", selectedChat);
-  }, [selectedChat, setSelectedChat]);
-
   // chats state
   const chats = useChatStore((state) => state.chats);
   const setChats = useChatStore((state) => state.setChats);

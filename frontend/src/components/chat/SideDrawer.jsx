@@ -46,7 +46,6 @@ const SideDrawer = () => {
       return;
     } else {
       // since search is used in useSearchUsers, it will automatically trigger the API call
-      console.log(data);
     }
   };
 

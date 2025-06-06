@@ -19,7 +19,6 @@ export const useUserStore = create((set) => ({
   initUser: () => {
     try {
       const userData = localStorage.getItem("userInfo");
-      console.log("🚀 ~ useUserStore ~ userData:", userData);
 
       if (userData) {
         set({ user: JSON.parse(userData) });

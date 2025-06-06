@@ -50,7 +50,10 @@ io.on("connection", (socket) => {
 
     if (!chat.users) return console.log("chat.user not defined");
     chat.users.forEach((user) => {
-      if (user._id == newMessage.sender._id) return;
+      if (user._id == newMessage.sender._id) {
+        console.log("same user".red);
+        return;
+      }
       socket.in(user._id).emit("message received", newMessage);
     });
   });
