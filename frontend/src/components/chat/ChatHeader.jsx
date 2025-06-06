@@ -1,3 +1,5 @@
+import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { IoNotificationsOutline } from "react-icons/io5";
 import {
   HStack,
@@ -40,6 +42,13 @@ const ChatHeader = () => {
   const containerBg = useColorModeValue("white.100", "dark.800");
   const textColor = useColorModeValue("dark.800", "white.100");
 
+  // for animation
+  const MotionBadge = motion(Badge);
+  const [badgeKey, setBadgeKey] = React.useState(0);
+  React.useEffect(() => {
+    setBadgeKey((k) => k + 1);
+  }, [notification.length]);
+
   return (
     <HStack
       shadow="md"
@@ -60,22 +69,29 @@ const ChatHeader = () => {
           <MenuButton position="relative">
             <Box position="relative" display="inline-block">
               <IoNotificationsOutline size={28} />
-              {notification.length > 0 && (
-                <Badge
-                  bg={"red.700"}
-                  borderRadius="full"
-                  position="absolute"
-                  top="-1"
-                  right="-1"
-                  fontSize="0.7em"
-                  px={2}
-                  py={0.5}
-                  zIndex={1}
-                  color={"white"}
-                >
-                  {notification.length}
-                </Badge>
-              )}
+              <AnimatePresence>
+                {notification.length > 0 && (
+                  <MotionBadge
+                    key={badgeKey}
+                    bg={"red.700"}
+                    borderRadius="full"
+                    position="absolute"
+                    top="-1"
+                    right="-1"
+                    fontSize="0.7em"
+                    px={2}
+                    py={0.5}
+                    zIndex={1}
+                    color={"white"}
+                    initial={{ scale: 1 }}
+                    animate={{ scale: [1, 1.4, 1] }}
+                    transition={{ duration: 0.4, times: [0, 0.5, 1] }}
+                    exit={{ scale: 0 }}
+                  >
+                    {notification.length}
+                  </MotionBadge>
+                )}
+              </AnimatePresence>
             </Box>
           </MenuButton>
           <MenuList p={2}>
