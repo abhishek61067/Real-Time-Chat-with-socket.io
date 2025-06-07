@@ -33,7 +33,6 @@ import {
   useRemoveUserFromGroupChat,
   useUpdateGroupChatName,
 } from "../../api/chat";
-import { set } from "mongoose";
 
 // Validation schema using yup
 const schema = yup.object().shape({
