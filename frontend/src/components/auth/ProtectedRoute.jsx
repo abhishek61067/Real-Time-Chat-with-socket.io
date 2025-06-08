@@ -14,7 +14,9 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     if (!user && !hasShownToast.current) {
-      hasShownToast.current = true;
+      setTimeout(() => {
+        navigate(routes.LOGIN, { state: { from: pathname } });
+      }, 100);
       toast({
         title: "Unauthorized",
         description: "You must be logged in to access this page.",
@@ -23,11 +25,9 @@ const ProtectedRoute = ({ children }) => {
         isClosable: true,
         position: "bottom",
       });
-      setTimeout(() => {
-        navigate(routes.LOGIN, { state: { from: pathname } });
-      }, 100);
+      hasShownToast.current = true;
     }
-  }, [user, navigate, pathname, toast]);
+  }, [user, navigate, pathname]);
 
   if (!user) return null;
 
