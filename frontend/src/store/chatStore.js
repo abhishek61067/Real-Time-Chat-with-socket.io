@@ -5,40 +5,37 @@ import { removeToken, setToken } from "../utils/token";
 // userStore
 export const useUserStore = create((set) => ({
   user: null,
+  loading: true,
+  error: null,
   setUser: (user) => {
-    set({ user });
+    set({ user, error: null, loading: false });
     if (user) {
       localStorage.setItem("userInfo", JSON.stringify(user));
-      removeToken(); // Clear any existing token
-      setToken(user.token);
     } else {
       localStorage.removeItem("userInfo");
-      removeToken();
     }
   },
   initUser: () => {
     try {
       const userData = localStorage.getItem("userInfo");
-
       if (userData) {
-        set({ user: JSON.parse(userData) });
-        removeToken();
-        setToken(JSON.parse(userData).token);
+        set({ user: JSON.parse(userData), loading: false, error: null });
         return true;
       } else {
-        console.log("User data not found in localStorage");
-        set({ user: null });
-        removeToken();
+        set({ user: null, loading: false, error: null });
         return false;
       }
-    } catch {
-      set({ user: null });
-      removeToken();
+    } catch (err) {
+      set({
+        user: null,
+        loading: false,
+        error: err?.message || "Failed to initialize user",
+      });
       return false;
     }
   },
   logout: () => {
-    set({ user: null });
+    set({ user: null, error: null });
     localStorage.removeItem("userInfo");
   },
 }));

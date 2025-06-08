@@ -1,12 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layout/MainLayout.jsx";
-import App from "../App";
 import ChatPage from "../pages/ChatPage";
 import routes from "./constant";
 import ProtectedRoute from "../components/auth/ProtectedRoute.jsx";
 import RoleProtectedRoute from "../components/auth/RoleProtectedRoute.jsx";
 import UnAuthorized from "../pages/UnAuthorized.jsx";
 import Logout from "./../pages/Logout";
+import LoginPage from "../pages/LoginPage.jsx";
+import Homepage from "./../pages/Homepage";
 
 export const router = createBrowserRouter([
   {
@@ -15,7 +16,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: routes.HOME,
-        element: <App />,
+        element: <Homepage />,
+      },
+      {
+        path: routes.LOGIN,
+        element: <LoginPage />,
       },
       {
         path: routes.CHAT,

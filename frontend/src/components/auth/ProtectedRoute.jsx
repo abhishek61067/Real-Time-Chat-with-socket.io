@@ -2,6 +2,7 @@ import { useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUserStore } from "@/store/chatStore";
 import { useToast } from "@chakra-ui/react";
+import routes from "../../routes/constant";
 
 const ProtectedRoute = ({ children }) => {
   const user = useUserStore((state) => state.user);
@@ -23,7 +24,7 @@ const ProtectedRoute = ({ children }) => {
         position: "bottom",
       });
       setTimeout(() => {
-        navigate("/", { state: { from: pathname } });
+        navigate(routes.LOGIN, { state: { from: pathname } });
       }, 100);
     }
   }, [user, navigate, pathname, toast]);

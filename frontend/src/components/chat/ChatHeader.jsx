@@ -24,6 +24,7 @@ import useNotificationStore from "./../../store/notificationStore";
 
 const ChatHeader = () => {
   const user = useUserStore((state) => state.user);
+  console.log("🚀 ~ ChatHeader ~ user:", user);
 
   // notification
   const notification = useNotificationStore((state) => state.notification);
