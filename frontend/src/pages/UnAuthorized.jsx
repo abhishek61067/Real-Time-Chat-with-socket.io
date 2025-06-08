@@ -1,6 +1,7 @@
 import { Box, Text, Button, VStack, Icon } from "@chakra-ui/react";
 import { FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import routes from "../routes/constant";
 
 const UnAuthorized = () => {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const UnAuthorized = () => {
         <Button
           colorScheme="teal"
           variant="solid"
-          onClick={() => navigate("/")}
+          onClick={() => navigate(routes.LOGIN)}
         >
           Go to Login
         </Button>

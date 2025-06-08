@@ -2,7 +2,7 @@ import { Box, Heading, Text, Button, VStack } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 
 const bgImage =
-  "https://plus.unsplash.com/premium_photo-1676057060928-c717a8e96784?q=80&w=2032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"; // Dummy chat background
+  "https://images.unsplash.com/photo-1611606063065-ee7946f0787a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"; // Dummy chat background
 
 const Homepage = () => (
   <Box
@@ -36,10 +36,10 @@ const Homepage = () => (
       bg={"transparent"}
       backdropFilter="blur(50px)"
     >
-      <Heading color="teal.600" size="2xl" textAlign="center">
+      <Heading color="teal.300" size="2xl" textAlign="center">
         Welcome to MERN Chat!
       </Heading>
-      <Text fontSize="xl" color="teal.800" textAlign="center">
+      <Text fontSize="xl" color="teal.100" textAlign="center">
         Connect, chat, and share instantly with friends and colleagues.
         Experience real-time messaging in a modern, secure chat app.
       </Text>

@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import ChatLogo from "@/assets/logo/chat.svg"; // Assuming you have a logo image
+import routes from "../routes/constant";
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -53,7 +54,7 @@ const Navbar = () => {
         <HStack spacing={8}>
           <Link
             as={RouterLink}
-            to="/"
+            to={routes.LOGIN}
             fontWeight="bold"
             fontSize="lg"
             color={colorMode === "dark" ? "teal.200" : "teal.700"}
