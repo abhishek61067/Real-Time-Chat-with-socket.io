@@ -3,8 +3,10 @@ import { getToken } from "../utils/token";
 import { TOKEN_KEY } from "../constants/token";
 
 const axiosInstance = axios.create({
-  // baseURL: "http://localhost:5000/",
-  baseURL: "https://real-time-chat-with-socket-io.onrender.com",
+  baseURL:
+    process.env.ENVIRONMENT === "production"
+      ? "https://real-time-chat-with-socket-io.onrender.com"
+      : "http://localhost:5000/",
   timeout: 10000,
 });
 

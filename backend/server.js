@@ -20,7 +20,11 @@ server.listen(PORT, () => {
 // Socket.io setup
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173", // adjust to your frontend URL/port
+    // origin: "http://localhost:5173",
+    origin:
+      process.env.ENVIRONMENT === "production"
+        ? "https://real-time-chat-with-socket-io.onrender.com"
+        : "http://localhost:5173",
     methods: ["GET", "POST"],
     credentials: true,
   },
