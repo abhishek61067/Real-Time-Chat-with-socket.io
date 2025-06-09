@@ -27,20 +27,11 @@ console.log("Registering messageRoutes");
 app.use("/api/message", messageRoutes);
 
 // for deployment
-const __filename = fileURLToPath(import.meta.url);
-const __dirnames = path.dirname(__filename);
-const NODE_ENV = process.env.NODE_ENV;
-if (NODE_ENV === "production") {
-  const rootDir = path.resolve(__dirnames, "../frontend/dist");
-  app.use(express.static(rootDir));
-  app.get(/^(?!\/api).*/, (req, res) => {
-    res.sendFile(path.join(rootDir, "index.html"));
-  });
-} else {
-  app.get("/", (req, res) => {
-    res.send("API is running");
-  });
-}
+const _dirname = path.resolve();
+app.use(express.static(path.join(_dirname, "/frontend/dist")));
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(path.resolve(_dirname, "frontend", "dist", "index.html"));
+});
 
 // Error handling
 app.use(notFound);
