@@ -3,6 +3,7 @@ import ProfileModal from "./ProfileModal";
 import { ChakraProvider } from "@chakra-ui/react";
 import { vi } from "vitest";
 import { waitFor } from "@testing-library/react";
+import { waitForElementToBeRemoved } from "@testing-library/react";
 
 const user = {
   name: "Test User",
@@ -38,14 +39,26 @@ describe("ProfileModal", () => {
     fireEvent.click(screen.getByRole("button"));
     expect(screen.getByText(user.name)).toBeInTheDocument();
   });
-  it("closes modal when Close button is clicked", async () => {
+
+  it("closes modal when either Close button in footer or close icon in header is clicked", async () => {
     renderWithChakra(<ProfileModal user={user} displayText={true} />);
     fireEvent.click(screen.getByText("My Profile"));
-    const closeButtons = screen.getAllByRole("button", { name: /close/i });
-    fireEvent.click(closeButtons[1]); // Click the footer Close button
 
-    await waitFor(() => {
-      expect(screen.queryByText(user.name)).not.toBeInTheDocument();
-    });
+    // Get all close buttons (icon and footer)
+    let closeButtons = screen.getAllByRole("button", { name: /close/i });
+
+    // Click the close icon (header)
+    fireEvent.click(closeButtons[0]);
+    await waitForElementToBeRemoved(() => screen.queryByText(user.name));
+
+    // Re-open the modal
+    fireEvent.click(screen.getByText("My Profile"));
+
+    // Re-query close buttons for the new modal instance
+    closeButtons = screen.getAllByRole("button", { name: /close/i });
+
+    // Click the footer Close button
+    fireEvent.click(closeButtons[1]);
+    await waitForElementToBeRemoved(() => screen.queryByText(user.name));
   });
 });
