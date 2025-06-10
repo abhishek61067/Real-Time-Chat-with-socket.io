@@ -9,6 +9,7 @@ const UserBadge = ({ user, handleFunction }) => {
           boxSize={3}
           cursor="pointer"
           onClick={() => handleFunction(user)}
+          data-testid="close-icon"
         />{" "}
       </HStack>
     </Badge>

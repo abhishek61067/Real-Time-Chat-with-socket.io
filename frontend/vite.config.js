@@ -10,4 +10,9 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"), // Set @ to point to the src directory
     },
   },
+  test: {
+    environment: "jsdom",
+    setupFiles: "./src/setupTests.js",
+    globals: true, // <-- this enables describe/it without imports
+  },
 });
