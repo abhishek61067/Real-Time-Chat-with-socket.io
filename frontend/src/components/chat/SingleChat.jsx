@@ -22,7 +22,10 @@ const schema = yup.object().shape({
   message: yup.string().required("Message cannot be empty"),
 });
 
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT =
+  import.meta.env.VITE_ENVIRONMENT === "production"
+    ? import.meta.env.VITE_PRODUCTION_URL
+    : import.meta.env.VITE_LOCAL_URL;
 var socket, selectedChatCompare;
 socket = io(ENDPOINT);
 

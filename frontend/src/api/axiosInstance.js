@@ -4,9 +4,9 @@ import { TOKEN_KEY } from "../constants/token";
 
 const axiosInstance = axios.create({
   baseURL:
-    process.env.ENVIRONMENT === "production"
-      ? "https://real-time-chat-with-socket-io.onrender.com"
-      : "http://localhost:5000/",
+    import.meta.env.VITE_ENVIRONMENT === "production"
+      ? import.meta.env.VITE_PRODUCTION_URL
+      : import.meta.env.VITE_LOCAL_URL,
   timeout: 10000,
 });
 

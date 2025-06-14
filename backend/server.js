@@ -3,14 +3,14 @@ import colors from "colors";
 import connectDB from "./config/db.js";
 import app from "./app.js";
 import { Server } from "socket.io";
-import http from "http";
+import { createServer } from "http";
 
 dotenv.config();
 
 connectDB();
 
 // Create HTTP server
-const server = http.createServer(app);
+const server = createServer(app);
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
@@ -23,8 +23,8 @@ const io = new Server(server, {
     // origin: "http://localhost:5173",
     origin:
       process.env.ENVIRONMENT === "production"
-        ? "https://real-time-chat-with-socket-io.onrender.com"
-        : "http://localhost:5173",
+        ? process.env.PRODUCTION_URL
+        : process.env.CLIENT_LOCAL_URL,
     methods: ["GET", "POST"],
     credentials: true,
   },

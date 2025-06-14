@@ -10,6 +10,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"), // Set @ to point to the src directory
     },
   },
+  // for test config
   test: {
     environment: "jsdom",
     setupFiles: "./src/setupTests.js",
