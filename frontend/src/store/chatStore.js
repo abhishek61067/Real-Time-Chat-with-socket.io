@@ -20,10 +20,12 @@ export const useUserStore = create((set) => ({
   initUser: () => {
     try {
       const userData = localStorage.getItem("userInfo");
+      console.log("🚀 ~ useUserStore ~ userData:", userData);
       if (userData) {
         set({ user: JSON.parse(userData), loading: false, error: null });
         removeToken(); // Clear any existing token
-        setToken(user.token);
+        setToken(userData.token);
+        console.log("if userData completed");
         return true;
       } else {
         set({ user: null, loading: false, error: null });
@@ -40,8 +42,9 @@ export const useUserStore = create((set) => ({
     }
   },
   logout: () => {
-    set({ user: null, error: null });
+    set({ user: null, loading: false, error: null });
     localStorage.removeItem("userInfo");
+    removeToken();
   },
 }));
 

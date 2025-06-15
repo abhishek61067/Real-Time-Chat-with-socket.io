@@ -32,12 +32,12 @@ const io = new Server(server, {
 
 // socket events
 io.on("connection", (socket) => {
-  console.log("A user connected:", socket.id);
+  console.log("A user connected:", socket.id.green);
 
-  // Example: join a chat room
   socket.on("setup", (user) => {
+    // Example: join a chat room
     socket.join(user._id);
-    console.log("socket user id: ", user._id.bgCyan);
+    console.log("socket user id: ", user._id.blue);
     socket.emit("connected");
   });
 

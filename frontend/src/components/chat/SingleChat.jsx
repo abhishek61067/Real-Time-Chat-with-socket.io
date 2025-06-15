@@ -26,8 +26,8 @@ const ENDPOINT =
   import.meta.env.VITE_ENVIRONMENT === "production"
     ? import.meta.env.VITE_PRODUCTION_URL
     : import.meta.env.VITE_LOCAL_URL;
+// socket declaration
 var socket, selectedChatCompare;
-socket = io(ENDPOINT);
 
 const SingleChat = () => {
   const user = useUserStore((state) => state.user);
@@ -62,8 +62,11 @@ const SingleChat = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [socketConnected, setSocketConnected] = useState(false);
 
-  // setup event to the socket
+  // socket setup
   useEffect(() => {
+    // socket initiliazation
+    socket = io(ENDPOINT);
+    console.log("user: ", user);
     socket.emit("setup", user);
     socket.on("connected", () => {
       setSocketConnected(true);
@@ -72,7 +75,10 @@ const SingleChat = () => {
       setIsTyping(true);
     });
     socket.on("stop typing", () => setIsTyping(false));
-  }, []);
+    return () => {
+      socket.disconnect();
+    };
+  });
 
   useEffect(() => {
     socket.emit("join chat", chatId);

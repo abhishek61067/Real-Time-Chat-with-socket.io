@@ -6,6 +6,7 @@ import routes from "../../routes/constant";
 
 const ProtectedRoute = ({ children }) => {
   const user = useUserStore((state) => state.user);
+  console.log("🚀 ~ ProtectedRoute ~ user:", user);
   const navigate = useNavigate();
   const toast = useToast();
   const location = useLocation();

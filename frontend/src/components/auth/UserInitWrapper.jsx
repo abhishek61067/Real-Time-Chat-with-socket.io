@@ -8,10 +8,12 @@ const UserInitWrapper = ({ children }) => {
   const bg = useColorModeValue("white.100", "dark.800");
 
   useEffect(() => {
+    console.log("triggering init user from main.jsx");
     initUser();
   }, [initUser]);
 
   if (loading) {
+    console.log("loading from main.jsx");
     return (
       <Box
         minH="100vh"
@@ -23,9 +25,9 @@ const UserInitWrapper = ({ children }) => {
         <Spinner />
       </Box>
     );
+  } else {
+    return children;
   }
-
-  return children;
 };
 
 export default UserInitWrapper;
