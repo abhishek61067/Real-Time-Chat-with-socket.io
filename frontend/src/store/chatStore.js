@@ -11,8 +11,6 @@ export const useUserStore = create((set) => ({
     set({ user, error: null, loading: false });
     if (user) {
       localStorage.setItem("userInfo", JSON.stringify(user));
-      removeToken();
-      setToken(user.token);
     } else {
       localStorage.removeItem("userInfo");
     }
@@ -23,13 +21,11 @@ export const useUserStore = create((set) => ({
       console.log("🚀 ~ useUserStore ~ userData:", userData);
       if (userData) {
         set({ user: JSON.parse(userData), loading: false, error: null });
-        removeToken(); // Clear any existing token
-        setToken(userData.token);
-        console.log("if userData completed");
+        console.log("if user completed");
+
         return true;
       } else {
         set({ user: null, loading: false, error: null });
-        removeToken();
         return false;
       }
     } catch (err) {
@@ -44,7 +40,6 @@ export const useUserStore = create((set) => ({
   logout: () => {
     set({ user: null, loading: false, error: null });
     localStorage.removeItem("userInfo");
-    removeToken();
   },
 }));
 
