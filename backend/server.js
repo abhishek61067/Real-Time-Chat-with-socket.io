@@ -32,12 +32,13 @@ const io = new Server(server, {
 
 // socket events
 io.on("connection", (socket) => {
-  console.log("A user connected:", socket.id.green);
+  console.log("A user connected with socket id:", socket.id.green);
 
   socket.on("setup", (user) => {
     // Example: join a chat room
+    // This one is necessary if the same user is connecting from multiple devices i.e. multiple socket, so that the user gets the message in each of the devices
     socket.join(user._id);
-    console.log("socket user id: ", user._id.pink);
+    console.log("socket user joined with user id: ", user._id.cyan);
     socket.emit("connected");
   });
 
@@ -55,11 +56,15 @@ io.on("connection", (socket) => {
 
     if (!chat.users) return console.log("chat.user not defined");
     chat.users.forEach((user) => {
+      // only send message to receiver
       if (user._id == newMessage.sender._id) {
         console.log("same user".red);
         return;
       }
-      socket.in(user._id).emit("message received", newMessage);
+      // receiver should receive
+      let receiver = user._id;
+      console.log("receivers user id: ", receiver);
+      socket.in(receiver).emit("message received", newMessage);
     });
   });
 
