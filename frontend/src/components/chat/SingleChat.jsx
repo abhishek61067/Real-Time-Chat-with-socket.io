@@ -16,18 +16,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { BiSolidSticker } from "react-icons/bi";
 import typingAnimation from "@/assets/animation/typing-animation.json";
-import useNotificationStore from "./../../store/notificationStore";
 
 const schema = yup.object().shape({
   message: yup.string().required("Message cannot be empty"),
 });
 
-const ENDPOINT =
-  import.meta.env.VITE_ENVIRONMENT === "production"
-    ? import.meta.env.VITE_PRODUCTION_URL
-    : import.meta.env.VITE_LOCAL_URL;
-// socket declaration
+const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare;
+socket = io(ENDPOINT);
 
 const SingleChat = () => {
   const user = useUserStore((state) => state.user);
@@ -36,12 +32,6 @@ const SingleChat = () => {
     (state) => state.setSelectedChat
   );
   const chatId = selectedChat?._id;
-
-  // for notification state
-  const notification = useNotificationStore((state) => state.notification);
-  const setNotification = useNotificationStore(
-    (state) => state.setNotification
-  );
 
   const {
     control,
@@ -62,28 +52,18 @@ const SingleChat = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [socketConnected, setSocketConnected] = useState(false);
 
-  // socket setup
+  // setup event to the socket
   useEffect(() => {
-    // socket initiliazation
-    socket = io(ENDPOINT);
-    console.log("user: ", user);
     socket.emit("setup", user);
     socket.on("connected", () => {
+      console.log("Socket connected");
       setSocketConnected(true);
     });
-
-    // typing
     socket.on("typing", () => {
-      console.log("socket on typing");
       setIsTyping(true);
     });
     socket.on("stop typing", () => setIsTyping(false));
-
-    // cleanup
-    return () => {
-      socket.disconnect();
-    };
-  });
+  }, []);
 
   useEffect(() => {
     socket.emit("join chat", chatId);
@@ -99,10 +79,7 @@ const SingleChat = () => {
         !selectedChatCompare ||
         selectedChatCompare._id !== newMessageReceived.chat._id
       ) {
-        // show notification
-        if (!notification.includes(newMessageReceived)) {
-          setNotification([newMessageReceived, ...notification]);
-        }
+        // notification
       } else {
         queryClient.setQueryData(
           ["messages", newMessageReceived.chat._id],
@@ -111,12 +88,10 @@ const SingleChat = () => {
       }
     });
     // Clean up the event listener on unmount
-    // return () => {
-    //   socket.off("message received");
-    // };
-  });
-
-  console.log(notification, "notification");
+    return () => {
+      socket.off("message received");
+    };
+  }, [queryClient]);
 
   const onSubmit = (data) => {
     const chatId = selectedChat._id;
@@ -140,19 +115,19 @@ const SingleChat = () => {
   };
 
   const typingHandler = (e) => {
+    console.log("typing: ", e.target.value);
     if (!socketConnected) return;
-    socket.emit("typing", selectedChat._id);
     if (!typing) {
       setTyping(true);
+      socket.emit("typing", selectedChat._id);
     }
-    console.log("user is typing");
-    // remove typing indicator after 3 seconds
     let lastTypingTime = new Date().getTime();
     var timerLength = 3000;
     setTimeout(() => {
       var timeNow = new Date().getTime();
       var timeDiff = timeNow - lastTypingTime;
       if (timeDiff >= timerLength && typing) {
+        console.log("we are inside setting type to false");
         socket.emit("stop typing", selectedChat._id);
         setTyping(false);
       }
@@ -176,12 +151,12 @@ const SingleChat = () => {
             <Lottie
               animationData={typingAnimation}
               style={{
-                width: "60px",
-                height: "30px",
+                width: "50px",
+                height: "20px",
               }}
             />
           ) : (
-            <>kera</>
+            <></>
           )}
           <MessageInput
             control={control}
