@@ -71,10 +71,15 @@ const SingleChat = () => {
     socket.on("connected", () => {
       setSocketConnected(true);
     });
+
+    // typing
     socket.on("typing", () => {
+      console.log("socket on typing");
       setIsTyping(true);
     });
     socket.on("stop typing", () => setIsTyping(false));
+
+    // cleanup
     return () => {
       socket.disconnect();
     };
@@ -106,9 +111,9 @@ const SingleChat = () => {
       }
     });
     // Clean up the event listener on unmount
-    return () => {
-      socket.off("message received");
-    };
+    // return () => {
+    //   socket.off("message received");
+    // };
   });
 
   console.log(notification, "notification");
@@ -136,10 +141,12 @@ const SingleChat = () => {
 
   const typingHandler = (e) => {
     if (!socketConnected) return;
+    socket.emit("typing", selectedChat._id);
     if (!typing) {
       setTyping(true);
-      socket.emit("typing", selectedChat._id);
     }
+    console.log("user is typing");
+    // remove typing indicator after 3 seconds
     let lastTypingTime = new Date().getTime();
     var timerLength = 3000;
     setTimeout(() => {
@@ -174,7 +181,7 @@ const SingleChat = () => {
               }}
             />
           ) : (
-            <></>
+            <>kera</>
           )}
           <MessageInput
             control={control}

@@ -1,9 +1,15 @@
 import { Box, Avatar, Tooltip } from "@chakra-ui/react";
 import React from "react";
 import { useUserStore } from "../../store/chatStore";
+import { useEffect } from "react";
+import { useRef } from "react";
 
 const ChatMessage = ({ data }) => {
   const user = useUserStore((state) => state.user);
+  const messagesEndRef = useRef(null);
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  });
   return (
     <Box p={2}>
       {data?.map((message) => {
@@ -40,6 +46,7 @@ const ChatMessage = ({ data }) => {
               maxW="70%"
             >
               {message.content}
+              <div ref={messagesEndRef} />
             </Box>
           </Box>
         );

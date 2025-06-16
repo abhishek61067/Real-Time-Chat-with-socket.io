@@ -34,23 +34,28 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
   console.log("A user connected with socket id:", socket.id.green);
 
+  // to setup for connecting all the sockets to that user in case user joins from multiple devices
   socket.on("setup", (user) => {
-    // Example: join a chat room
-    // This one is necessary if the same user is connecting from multiple devices i.e. multiple socket, so that the user gets the message in each of the devices
+    // This one is necessary to connect the user from all sockets in case user want to use the app from multiple devices
     socket.join(user._id);
     console.log("socket user joined with user id: ", user._id.cyan);
     socket.emit("connected");
   });
 
+  // when user select the chat
   socket.on("join chat", (room) => {
     socket.join(room);
-    console.log("User Joined Room: ".green + room);
+    console.log("User Joined Room: ".bgGreen + room.bgGreen);
   });
 
   // typing
-  socket.on("typing", (room) => socket.in(room).emit("typing"));
+  socket.on("typing", (room) => {
+    console.log("user is typing in room: ".bgYellow, room);
+    socket.in(room).emit("typing");
+  });
   socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
 
+  // when user sends message
   socket.on("new message", (newMessage) => {
     var chat = newMessage.chat;
 
@@ -68,9 +73,8 @@ io.on("connection", (socket) => {
     });
   });
 
-  // to clean up
-  socket.off("setup", () => {
-    console.log("USER DISCONNECTED");
-    socket.leave(user._id);
+  // when user disconnect
+  socket.on("disconnect", () => {
+    console.log("A user disconnected with socket id:".bgRed, socket.id.bgRed);
   });
 });
