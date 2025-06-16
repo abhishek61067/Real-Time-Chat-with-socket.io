@@ -51,7 +51,7 @@ io.on("connection", (socket) => {
   // typing
   socket.on("typing", (room) => {
     console.log("user is typing in room: ".bgYellow, room);
-    socket.in(room).emit("typing");
+    socket.emit("typing");
   });
   socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
 
