@@ -126,7 +126,7 @@ const SingleChat = () => {
     setTimeout(() => {
       var timeNow = new Date().getTime();
       var timeDiff = timeNow - lastTypingTime;
-      if (timeDiff >= timerLength && typing) {
+      if (timeDiff >= timerLength) {
         console.log("we are inside setting type to false");
         socket.emit("stop typing", selectedChat._id);
         setTyping(false);
