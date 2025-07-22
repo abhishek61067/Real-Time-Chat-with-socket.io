@@ -45,16 +45,24 @@ io.on("connection", (socket) => {
   });
 
   // typing
-  socket.on("typing", (room) => socket.in(room).emit("typing"));
+  socket.on("typing", (room) => socket.in(room).emit("typing", room));
   socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
 
   socket.on("new message", (newMessage) => {
     var chat = newMessage.chat;
 
     if (!chat.users) return console.log("chat.user not defined");
+
     chat.users.forEach((user) => {
+      // if the user is not the sender of the message, then emit the message received event
       if (user._id == newMessage.sender._id) return;
+
       socket.in(user._id).emit("message received", newMessage);
     });
+  });
+
+  socket.off("setup", (user) => {
+    console.log("USER DISCONNECTED");
+    socket.leave(user._id);
   });
 });

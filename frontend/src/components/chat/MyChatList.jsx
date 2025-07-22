@@ -110,7 +110,10 @@ const MyChatList = () => {
               selectedChat?._id === chat._id ? "teal.200" : borderColor
             }
             _hover={{ bg: hoverBg, cursor: "pointer" }}
-            onClick={() => setSelectedChat(chat)}
+            onClick={() => {
+              console.info("Chat clicked:", chat);
+              setSelectedChat(chat);
+            }}
           >
             {!chat.isGroupChat ? (
               <HStack>

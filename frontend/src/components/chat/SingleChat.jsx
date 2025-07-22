@@ -16,6 +16,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { BiSolidSticker } from "react-icons/bi";
 import typingAnimation from "@/assets/animation/typing-animation.json";
+import useNotificationStore from "./../../store/notificationStore";
 
 const schema = yup.object().shape({
   message: yup.string().required("Message cannot be empty"),
@@ -32,6 +33,12 @@ const SingleChat = () => {
     (state) => state.setSelectedChat
   );
   const chatId = selectedChat?._id;
+
+  // for notification state
+  const notification = useNotificationStore((state) => state.notification);
+  const setNotification = useNotificationStore(
+    (state) => state.setNotification
+  );
 
   const {
     control,
@@ -56,7 +63,6 @@ const SingleChat = () => {
   useEffect(() => {
     socket.emit("setup", user);
     socket.on("connected", () => {
-      console.log("Socket connected");
       setSocketConnected(true);
     });
     socket.on("typing", () => {
@@ -79,7 +85,10 @@ const SingleChat = () => {
         !selectedChatCompare ||
         selectedChatCompare._id !== newMessageReceived.chat._id
       ) {
-        // notification
+        // show notification
+        if (!notification.includes(newMessageReceived)) {
+          setNotification([newMessageReceived, ...notification]);
+        }
       } else {
         queryClient.setQueryData(
           ["messages", newMessageReceived.chat._id],
@@ -91,7 +100,9 @@ const SingleChat = () => {
     return () => {
       socket.off("message received");
     };
-  }, [queryClient]);
+  });
+
+  console.log(notification, "notification");
 
   const onSubmit = (data) => {
     const chatId = selectedChat._id;
@@ -115,19 +126,18 @@ const SingleChat = () => {
   };
 
   const typingHandler = (e) => {
-    console.log("typing: ", e.target.value);
     if (!socketConnected) return;
+    // typer is not getting typing event because he is typing and if he is typing then we don't want to emit typing event
     if (!typing) {
       setTyping(true);
       socket.emit("typing", selectedChat._id);
     }
     let lastTypingTime = new Date().getTime();
-    var timerLength = 1000;
+    var timerLength = 3000;
     setTimeout(() => {
       var timeNow = new Date().getTime();
       var timeDiff = timeNow - lastTypingTime;
-      if (timeDiff >= timerLength) {
-        console.log("we are inside setting type to false");
+      if (timeDiff >= timerLength && typing) {
         socket.emit("stop typing", selectedChat._id);
         setTyping(false);
       }
@@ -151,8 +161,8 @@ const SingleChat = () => {
             <Lottie
               animationData={typingAnimation}
               style={{
-                width: "50px",
-                height: "20px",
+                width: "60px",
+                height: "30px",
               }}
             />
           ) : (
