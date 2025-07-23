@@ -86,13 +86,20 @@ const SingleChat = () => {
         selectedChatCompare._id !== newMessageReceived.chat._id
       ) {
         // show notification
-        if (!notification.includes(newMessageReceived)) {
+        if (!notification.some((msg) => msg._id === newMessageReceived._id)) {
           setNotification([newMessageReceived, ...notification]);
         }
       } else {
+        // to update or replace the temporary message in the chat with real message
         queryClient.setQueryData(
           ["messages", newMessageReceived.chat._id],
-          (old = []) => [...old, newMessageReceived]
+          (old = []) => {
+            // Add new message only if it doesn't already exist
+            const exists = old.some(
+              (msg) => msg._id === newMessageReceived._id
+            );
+            return exists ? old : [...old, newMessageReceived];
+          }
         );
       }
     });
@@ -105,15 +112,44 @@ const SingleChat = () => {
   console.log(notification, "notification");
 
   const onSubmit = (data) => {
+    // onsubmit, we will first update the UI optimistically using the temporary message and then send the message to the server and emit the socket event and then update the UI with the real message
+
     const chatId = selectedChat._id;
     const content = data.message;
+
+    // optimistic ui
+    // 1. Create a temporary message
+    const tempMessage = {
+      _id: `temp-${Date.now()}`,
+      content,
+      chat: { _id: chatId },
+      sender: user, // current user
+      createdAt: new Date().toISOString(),
+      optimistic: true,
+    };
+
+    // 2. Optimistically update UI in the sender's chat
+    queryClient.setQueryData(["messages", chatId], (old = []) => [
+      ...old,
+      tempMessage,
+    ]);
+
+    // 3. Emit the temporary message to the socket to update the UI immediately in the receiver's chat
+    socket.emit("new message", tempMessage);
+
+    // 3. Send to server
     sendMessage({ content, chatId })
-      .then((data) => {
-        socket.emit("new message", data);
+      .then((realMessage) => {
+        // If successful, update the temporary message with the real message
+        socket.emit("new message", realMessage);
         socket.emit("stop typing", chatId);
-        reset();
       })
       .catch(() => {
+        // If failed, remove temporary message
+        queryClient.setQueryData(["messages", chatId], (old = []) =>
+          old.filter((msg) => msg._id !== tempMessage._id)
+        );
+
         toast({
           title: "Error",
           description: "Failed to send message.",
@@ -122,7 +158,8 @@ const SingleChat = () => {
           isClosable: true,
         });
       });
-    reset();
+
+    reset(); // Clear input
   };
 
   const typingHandler = (e) => {

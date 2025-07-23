@@ -55,7 +55,6 @@ io.on("connection", (socket) => {
 
     chat.users.forEach((user) => {
       // if the user is not the sender of the message, then emit the message received event
-      if (user._id == newMessage.sender._id) return;
 
       socket.in(user._id).emit("message received", newMessage);
     });
