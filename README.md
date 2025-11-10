@@ -1,1 +1,1 @@
-A real time web application with features including group chats.
+A real time chat application with features including one on one and group chats with optimistic UI and socket for seamless interactions.
